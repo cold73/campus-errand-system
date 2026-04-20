@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Java / Maven
+target/
+*.class
+*.jar
+
+# Node
+node_modules/
+
+# WeChat Mini Program
+miniprogram_npm/
+
+# Environment
+.env
+*.log

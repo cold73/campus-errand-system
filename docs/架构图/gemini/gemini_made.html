@@ -1,0 +1,1259 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基于微信小程序的校园跑腿系统 - 技术架构图</title>
+    <!-- 引入 Tailwind CSS 用于样式布局 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Lucide Icons 图标库 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen bg-gray-100 p-8 flex justify-center items-start overflow-x-auto"
+  >
+    <!-- 整体画布容器，固定最小宽度确保布局不乱 -->
+    <div
+      class="bg-white p-10 rounded-2xl shadow-2xl min-w-[1400px] border border-gray-200"
+    >
+      <!-- ================= 标题区 ================= -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold text-slate-800 tracking-wider">
+          基于微信小程序的校园跑腿系统 - 技术架构图
+        </h1>
+        <p class="text-slate-500 mt-2 text-sm tracking-widest">
+          ARCHITECTURE DIAGRAM OF CAMPUS ERRAND SYSTEM
+        </p>
+      </div>
+
+      <!-- ================= 主体架构区 ================= -->
+      <div class="flex flex-row gap-6 relative">
+        <!-- 【一】左侧：用户终端 -->
+        <div class="w-[14%] flex flex-col">
+          <div
+            class="border-2 border-dashed border-slate-300 bg-slate-50 rounded-xl p-5 h-full flex flex-col items-center relative shadow-sm"
+          >
+            <div
+              class="bg-slate-700 text-white px-4 py-1.5 rounded-full text-sm font-bold mb-8 w-full text-center tracking-widest"
+            >
+              用户终端
+            </div>
+
+            <div class="flex flex-col gap-8 w-full flex-grow mt-4">
+              <div
+                class="bg-white border border-slate-200 rounded-lg p-4 flex flex-col items-center shadow-sm hover:shadow-md transition"
+              >
+                <i
+                  data-lucide="user"
+                  class="w-10 h-10 text-emerald-600 mb-2"
+                  stroke-width="1.5"
+                ></i>
+                <span class="font-bold text-slate-700">普通用户</span>
+                <span class="text-xs text-slate-500 mt-1">发布/查询订单</span>
+              </div>
+
+              <div
+                class="bg-white border border-slate-200 rounded-lg p-4 flex flex-col items-center shadow-sm hover:shadow-md transition"
+              >
+                <i
+                  data-lucide="bike"
+                  class="w-10 h-10 text-amber-600 mb-2"
+                  stroke-width="1.5"
+                ></i>
+                <span class="font-bold text-slate-700">跑腿员</span>
+                <span class="text-xs text-slate-500 mt-1">接单/状态更新</span>
+              </div>
+
+              <div
+                class="bg-white border border-slate-200 rounded-lg p-4 flex flex-col items-center shadow-sm hover:shadow-md transition"
+              >
+                <i
+                  data-lucide="shield-check"
+                  class="w-10 h-10 text-rose-600 mb-2"
+                  stroke-width="1.5"
+                ></i>
+                <span class="font-bold text-slate-700">管理员 (可选)</span>
+                <span class="text-xs text-slate-500 mt-1">系统/用户管理</span>
+              </div>
+            </div>
+
+            <div
+              class="mt-8 pt-4 border-t border-slate-200 text-xs text-slate-500 text-center leading-relaxed"
+            >
+              系统用户通过微信小程序完成订单发布、接单与管理操作
+            </div>
+
+            <!-- 箭头指向前端 -->
+            <div
+              class="absolute top-1/2 -right-10 transform -translate-y-1/2 flex flex-col items-center"
+            >
+              <i
+                data-lucide="arrow-right"
+                class="text-emerald-500 w-8 h-8"
+                stroke-width="2"
+              ></i>
+              <span class="text-[10px] text-emerald-600 font-bold mt-1"
+                >访问/交互</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="w-[4%]"></div>
+        <!-- 间距预留给箭头 -->
+
+        <!-- 【二、三、四、六】中部：核心分层架构 -->
+        <div class="w-[62%] flex flex-col gap-5">
+          <!-- === 第一层：前端层 === -->
+          <div
+            class="border-2 border-emerald-300 bg-emerald-50 rounded-xl p-5 shadow-sm relative"
+          >
+            <div
+              class="absolute -top-3 left-6 bg-emerald-500 text-white px-3 py-1 rounded text-sm font-bold flex items-center shadow-sm"
+            >
+              <i data-lucide="smartphone" class="w-4 h-4 mr-1"></i> 前端层
+              (微信小程序)
+            </div>
+
+            <div class="grid grid-cols-4 gap-3 mt-4">
+              <!-- 首页 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="layout" class="w-4 h-4 mr-1.5"></i>首页
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >轮播图
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >快捷入口
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >订单推荐
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 发布订单 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="file-text" class="w-4 h-4 mr-1.5"></i>发布订单
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >填写信息
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >选择类型
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >提交发布
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 跑腿大厅 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="globe" class="w-4 h-4 mr-1.5"></i>跑腿大厅
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >待接单列表
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >订单筛选
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >订单详情
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 接单管理 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i
+                  >接单管理
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >我的接单
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >进行中订单
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >完成订单
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 订单列表 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="list" class="w-4 h-4 mr-1.5"></i>订单列表
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >我的订单
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >订单状态
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >订单分类
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 订单详情 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="clock" class="w-4 h-4 mr-1.5"></i>订单详情
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >订单信息
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >状态跟踪
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >联系跑腿员
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 个人中心 -->
+              <div
+                class="bg-white border border-emerald-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="user-circle" class="w-4 h-4 mr-1.5"></i
+                  >个人中心
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >用户信息
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >我的钱包
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >系统设置
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 前端职责 (高亮) -->
+              <div
+                class="bg-emerald-100/50 border border-emerald-400 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="flex items-center text-emerald-800 font-bold text-sm mb-2 border-b border-emerald-100 pb-1"
+                >
+                  <i data-lucide="code" class="w-4 h-4 mr-1.5"></i>前端职责
+                </div>
+                <ul class="text-xs text-slate-600 space-y-1 pl-1">
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >页面展示 / 交互
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >状态渲染
+                  </li>
+                  <li class="flex items-center">
+                    <span
+                      class="w-1 h-1 bg-emerald-400 rounded-full mr-1.5"
+                    ></span
+                    >不直连数据库
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- === 第二层：网络通信层 === -->
+          <div class="flex justify-center items-center py-1 relative z-10">
+            <div class="w-full flex justify-center">
+              <div
+                class="bg-slate-100 border border-slate-300 rounded-full px-8 py-2 flex items-center gap-10 shadow-sm relative"
+              >
+                <div class="flex flex-col items-center">
+                  <i
+                    data-lucide="arrow-down"
+                    class="text-blue-500 w-5 h-5 animate-pulse"
+                  ></i>
+                  <span class="text-[10px] text-blue-600 font-bold mt-0.5"
+                    >请求流 (Request)</span
+                  >
+                </div>
+                <div class="flex flex-col items-center px-4">
+                  <div
+                    class="flex items-center text-slate-700 font-bold text-sm bg-white px-3 py-1 rounded-md shadow-sm"
+                  >
+                    <i
+                      data-lucide="link"
+                      class="w-4 h-4 mr-2 text-slate-500"
+                    ></i>
+                    HTTPS / RESTful API / JSON
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <i
+                    data-lucide="arrow-up"
+                    class="text-emerald-500 w-5 h-5 animate-pulse"
+                  ></i>
+                  <span class="text-[10px] text-emerald-600 font-bold mt-0.5"
+                    >响应流 (Response)</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- === 第三层：后端服务层 === -->
+          <div
+            class="border-2 border-blue-300 bg-blue-50 rounded-xl p-5 shadow-sm relative flex flex-row gap-5"
+          >
+            <div
+              class="absolute -top-3 left-6 bg-blue-600 text-white px-3 py-1 rounded text-sm font-bold flex items-center shadow-sm"
+            >
+              <i data-lucide="server" class="w-4 h-4 mr-1"></i> 后端服务层
+              (Spring Boot)
+            </div>
+
+            <!-- 左侧：三层架构 -->
+            <div class="w-3/4 flex flex-col gap-3 mt-4">
+              <!-- Controller层 -->
+              <div
+                class="bg-white border border-blue-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="text-blue-800 font-bold text-sm mb-2 flex justify-between items-end border-b border-blue-100 pb-1"
+                >
+                  <span>接口层 (Controller)</span>
+                  <span class="text-[10px] text-slate-400 font-normal"
+                    >职责: 接收请求 / 参数校验 / 统一响应</span
+                  >
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2 py-1 rounded"
+                    >用户接口</span
+                  >
+                  <span
+                    class="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2 py-1 rounded"
+                    >订单接口</span
+                  >
+                  <span
+                    class="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2 py-1 rounded"
+                    >接单接口</span
+                  >
+                  <span
+                    class="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2 py-1 rounded"
+                    >状态接口</span
+                  >
+                  <span
+                    class="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2 py-1 rounded"
+                    >文件接口</span
+                  >
+                  <span
+                    class="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2 py-1 rounded"
+                    >通用接口</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex justify-center -my-2 z-10">
+                <i
+                  data-lucide="arrow-down"
+                  class="text-blue-400 w-4 h-4 bg-blue-50"
+                ></i>
+              </div>
+
+              <!-- Service层 -->
+              <div
+                class="bg-white border border-blue-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="text-blue-800 font-bold text-sm mb-2 flex justify-between items-end border-b border-blue-100 pb-1"
+                >
+                  <span>业务逻辑层 (Service)</span>
+                  <span class="text-[10px] text-slate-400 font-normal"
+                    >职责: 核心业务规则 / 订单流转 / 事务控制</span
+                  >
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="bg-blue-100 text-blue-800 border border-blue-200 text-xs px-2 py-1 rounded font-medium"
+                    >用户服务</span
+                  >
+                  <span
+                    class="bg-blue-100 text-blue-800 border border-blue-200 text-xs px-2 py-1 rounded font-medium"
+                    >订单服务</span
+                  >
+                  <span
+                    class="bg-blue-100 text-blue-800 border border-blue-200 text-xs px-2 py-1 rounded font-medium"
+                    >接单服务</span
+                  >
+                  <span
+                    class="bg-blue-100 text-blue-800 border border-blue-200 text-xs px-2 py-1 rounded font-medium"
+                    >状态管理</span
+                  >
+                  <span
+                    class="bg-blue-100 text-blue-800 border border-blue-200 text-xs px-2 py-1 rounded font-medium"
+                    >通知服务</span
+                  >
+                  <span
+                    class="bg-blue-100 text-blue-800 border border-blue-200 text-xs px-2 py-1 rounded font-medium"
+                    >扩展服务</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex justify-center -my-2 z-10">
+                <i
+                  data-lucide="arrow-down"
+                  class="text-blue-400 w-4 h-4 bg-blue-50"
+                ></i>
+              </div>
+
+              <!-- DAO层 -->
+              <div
+                class="bg-white border border-blue-200 rounded-lg p-3 shadow-sm"
+              >
+                <div
+                  class="text-blue-800 font-bold text-sm mb-2 flex justify-between items-end border-b border-blue-100 pb-1"
+                >
+                  <span>数据访问层 (DAO / Mapper)</span>
+                  <span class="text-[10px] text-slate-400 font-normal"
+                    >职责: 数据库交互 / 增删改查 / 数据持久化</span
+                  >
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="bg-slate-50 text-slate-700 border border-slate-200 text-xs px-2 py-1 rounded"
+                    >用户DAO</span
+                  >
+                  <span
+                    class="bg-slate-50 text-slate-700 border border-slate-200 text-xs px-2 py-1 rounded"
+                    >订单DAO</span
+                  >
+                  <span
+                    class="bg-slate-50 text-slate-700 border border-slate-200 text-xs px-2 py-1 rounded"
+                    >接单DAO</span
+                  >
+                  <span
+                    class="bg-slate-50 text-slate-700 border border-slate-200 text-xs px-2 py-1 rounded"
+                    >状态DAO</span
+                  >
+                  <span
+                    class="bg-slate-50 text-slate-700 border border-slate-200 text-xs px-2 py-1 rounded"
+                    >文件DAO</span
+                  >
+                  <span
+                    class="bg-slate-50 text-slate-700 border border-slate-200 text-xs px-2 py-1 rounded"
+                    >通用DAO</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- 右侧：基础组件 -->
+            <div
+              class="w-1/4 mt-4 bg-white border border-indigo-200 rounded-lg p-3 shadow-sm flex flex-col"
+            >
+              <div
+                class="text-indigo-800 font-bold text-sm mb-3 flex items-center border-b border-indigo-100 pb-1"
+              >
+                <i data-lucide="settings" class="w-4 h-4 mr-1"></i> 基础组件
+              </div>
+              <div class="flex flex-col gap-2 flex-grow">
+                <div
+                  class="flex items-center text-xs bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded border border-indigo-100"
+                >
+                  <i data-lucide="shield" class="w-3 h-3 mr-1.5"></i> Spring
+                  Security
+                </div>
+                <div
+                  class="flex items-center text-xs bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded border border-indigo-100"
+                >
+                  <i data-lucide="user-circle" class="w-3 h-3 mr-1.5"></i> JWT
+                  身份认证
+                </div>
+                <div
+                  class="flex items-center text-xs bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded border border-indigo-100"
+                >
+                  <i data-lucide="refresh-cw" class="w-3 h-3 mr-1.5"></i>
+                  全局异常处理
+                </div>
+                <div
+                  class="flex items-center text-xs bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded border border-indigo-100"
+                >
+                  <i data-lucide="file-text" class="w-3 h-3 mr-1.5"></i>
+                  日志记录 (Log)
+                </div>
+                <div
+                  class="flex items-center text-xs bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded border border-indigo-100"
+                >
+                  <i data-lucide="database" class="w-3 h-3 mr-1.5"></i>
+                  声明式事务
+                </div>
+                <div
+                  class="flex items-center text-xs bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded border border-indigo-100"
+                >
+                  <i data-lucide="layout" class="w-3 h-3 mr-1.5"></i>
+                  统一返回结构
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 数据访问通信流 -->
+          <div class="flex justify-center items-center py-1">
+            <div class="flex flex-col items-center text-cyan-600">
+              <div class="flex gap-4">
+                <div class="flex items-center">
+                  <i data-lucide="arrow-down" class="w-4 h-4 mr-1"></i>
+                  <span class="text-xs">数据写入/查询</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="text-xs mr-1">结果返回</span>
+                  <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- === 第四层：数据层 === -->
+          <div
+            class="border-2 border-cyan-300 bg-cyan-50 rounded-xl p-5 shadow-sm relative"
+          >
+            <div
+              class="absolute -top-3 left-6 bg-cyan-600 text-white px-3 py-1 rounded text-sm font-bold flex items-center shadow-sm"
+            >
+              <i data-lucide="database" class="w-4 h-4 mr-1"></i> 数据层 (MySQL)
+            </div>
+
+            <div class="grid grid-cols-4 gap-3 mt-4">
+              <!-- 表1 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  user (用户表)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>username</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>password</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>role</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表2 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  order (订单主表)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-blue-500">user_id (FK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>title</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>content</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>status</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表3 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  order_item (物品表)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-blue-500">order_id (FK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>item_name</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>price</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表4 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  order_receive (收件)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-blue-500">order_id (FK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>name</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>phone</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>address</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表5 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  runner (跑腿员表)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-blue-500">user_id (FK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>real_name</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>phone</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表6 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  runner_order (接单表)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-blue-500">order_id (FK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-blue-500">runner_id (FK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>status</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表7 -->
+              <div
+                class="bg-white border border-cyan-200 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  sys_log (系统日志)
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>user_id</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>action</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>create_time</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 表8 -->
+              <div
+                class="bg-white border-dashed border-cyan-400 opacity-80 rounded shadow-sm overflow-hidden"
+              >
+                <div
+                  class="bg-cyan-100 text-cyan-900 text-xs font-bold px-2 py-1.5 border-b border-cyan-200 flex justify-between"
+                >
+                  预留扩展表
+                </div>
+                <div class="p-2">
+                  <ul class="text-[10px] text-slate-600 font-mono space-y-0.5">
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span class="text-amber-600 font-bold">id (PK)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>extend_type</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>extend_data</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span
+                        class="w-1 h-1 bg-slate-300 rounded-full mr-1"
+                      ></span
+                      ><span>...</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 连接线占位区 -->
+        <div class="w-[4%] relative">
+          <div
+            class="absolute top-[10%] left-1/2 transform -translate-x-1/2 flex flex-col justify-between h-[80%] opacity-40"
+          >
+            <div
+              class="h-0.5 w-8 bg-purple-400 border-t-2 border-dashed border-purple-400 mt-20 relative"
+            >
+              <div
+                class="absolute right-0 -top-1.5 border-l-4 border-l-purple-400 border-y-4 border-y-transparent"
+              ></div>
+            </div>
+            <div
+              class="h-0.5 w-8 bg-orange-400 border-t-2 border-dashed border-orange-400 mb-20 relative"
+            >
+              <div
+                class="absolute right-0 -top-1.5 border-l-4 border-l-orange-400 border-y-4 border-y-transparent"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 【七、八、九、十】右侧：扩展与环境说明 -->
+        <div class="w-[16%] flex flex-col gap-5">
+          <!-- 第三方服务 -->
+          <div
+            class="border border-purple-200 bg-purple-50 rounded-xl p-4 shadow-sm relative"
+          >
+            <div
+              class="text-purple-800 font-bold text-sm mb-3 flex items-center border-b border-purple-200 pb-1"
+            >
+              <i data-lucide="cloud" class="w-4 h-4 mr-1.5"></i> 第三方服务
+            </div>
+            <ul class="text-xs text-slate-700 space-y-2">
+              <li
+                class="flex items-center bg-white p-1.5 rounded border border-purple-100 shadow-sm"
+              >
+                <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                微信授权登录
+              </li>
+              <li
+                class="flex items-center bg-white p-1.5 rounded border border-purple-100 shadow-sm"
+              >
+                <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                微信订阅消息
+              </li>
+              <li
+                class="flex items-center bg-white p-1.5 rounded border border-purple-100 shadow-sm"
+              >
+                <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                地图定位服务
+              </li>
+              <li
+                class="flex items-center bg-white p-1.5 rounded border border-purple-100 shadow-sm"
+              >
+                <div class="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                短信通知服务
+              </li>
+            </ul>
+          </div>
+
+          <!-- 开发工具 -->
+          <div
+            class="border border-slate-200 bg-slate-50 rounded-xl p-4 shadow-sm relative"
+          >
+            <div
+              class="text-slate-700 font-bold text-sm mb-3 flex items-center border-b border-slate-200 pb-1"
+            >
+              <i data-lucide="wrench" class="w-4 h-4 mr-1.5"></i> 开发工具
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <span
+                class="bg-white border border-slate-200 text-[10px] text-slate-600 px-2 py-1 rounded shadow-sm w-full"
+                >微信开发者工具</span
+              >
+              <span
+                class="bg-white border border-slate-200 text-[10px] text-slate-600 px-2 py-1 rounded shadow-sm w-full"
+                >IntelliJ IDEA</span
+              >
+              <span
+                class="bg-white border border-slate-200 text-[10px] text-slate-600 px-2 py-1 rounded shadow-sm w-full"
+                >Navicat/DBeaver</span
+              >
+              <span
+                class="bg-white border border-slate-200 text-[10px] text-slate-600 px-2 py-1 rounded shadow-sm w-full"
+                >Postman</span
+              >
+              <span
+                class="bg-white border border-slate-200 text-[10px] text-slate-600 px-2 py-1 rounded shadow-sm w-full"
+                >Git / GitHub</span
+              >
+            </div>
+          </div>
+
+          <!-- 部署环境 -->
+          <div
+            class="border border-slate-200 bg-slate-50 rounded-xl p-4 shadow-sm relative"
+          >
+            <div
+              class="text-slate-700 font-bold text-sm mb-3 flex items-center border-b border-slate-200 pb-1"
+            >
+              <i data-lucide="monitor" class="w-4 h-4 mr-1.5"></i>
+              部署环境(演示)
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 text-[10px] text-slate-600">
+              <div class="bg-white border p-1 rounded shadow-sm text-center">
+                MacBook/PC
+              </div>
+              <div class="bg-white border p-1 rounded shadow-sm text-center">
+                JDK 17+
+              </div>
+              <div class="bg-white border p-1 rounded shadow-sm text-center">
+                MySQL 8.0+
+              </div>
+              <div class="bg-white border p-1 rounded shadow-sm text-center">
+                Maven 3.8+
+              </div>
+            </div>
+          </div>
+
+          <!-- 智能扩展模块 -->
+          <div
+            class="border-2 border-dashed border-orange-300 bg-orange-50 rounded-xl p-4 shadow-sm relative mt-auto"
+          >
+            <div
+              class="text-orange-800 font-bold text-sm mb-3 flex items-center border-b border-orange-200 pb-1"
+            >
+              <i data-lucide="cpu" class="w-4 h-4 mr-1.5"></i>
+              智能扩展模块(预留)
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <div
+                class="bg-white border border-orange-200 text-orange-700 text-[11px] px-2 py-1.5 rounded shadow-sm flex items-center"
+              >
+                <div
+                  class="w-1.5 h-1.5 bg-orange-400 transform rotate-45 mr-2"
+                ></div>
+                智能派单算法 (AI)
+              </div>
+              <div
+                class="bg-white border border-orange-200 text-orange-700 text-[11px] px-2 py-1.5 rounded shadow-sm flex items-center"
+              >
+                <div
+                  class="w-1.5 h-1.5 bg-orange-400 transform rotate-45 mr-2"
+                ></div>
+                动态定价策略
+              </div>
+              <div
+                class="bg-white border border-orange-200 text-orange-700 text-[11px] px-2 py-1.5 rounded shadow-sm flex items-center"
+              >
+                <div
+                  class="w-1.5 h-1.5 bg-orange-400 transform rotate-45 mr-2"
+                ></div>
+                平台数据分析
+              </div>
+              <div
+                class="bg-white border border-orange-200 text-orange-700 text-[11px] px-2 py-1.5 rounded shadow-sm flex items-center"
+              >
+                <div
+                  class="w-1.5 h-1.5 bg-orange-400 transform rotate-45 mr-2"
+                ></div>
+                智能服务推荐
+              </div>
+              <div
+                class="bg-white border border-orange-200 text-orange-700 text-[11px] px-2 py-1.5 rounded shadow-sm flex items-center"
+              >
+                <div
+                  class="w-1.5 h-1.5 bg-orange-400 transform rotate-45 mr-2"
+                ></div>
+                订单异常预警
+              </div>
+            </div>
+            <div class="text-[9px] text-orange-600/80 mt-3 text-center">
+              * 后续迭代接入，提升系统智能化运营能力
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 底部：图例与系统说明 ================= -->
+      <div class="mt-12 pt-6 border-t-2 border-slate-200">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+        >
+          <!-- 系统说明 -->
+          <div
+            class="md:w-2/3 bg-slate-50 p-4 rounded-lg border border-slate-200 shadow-inner"
+          >
+            <h3 class="font-bold text-slate-700 text-sm mb-1 flex items-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-1"></i> 系统核心说明
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed text-justify">
+              本系统采用前后端分离架构，前端基于<strong>微信小程序</strong>实现用户交互，后端基于
+              <strong>Spring Boot</strong> 构建 RESTful
+              服务，采用标准三层架构设计（Controller/Service/DAO），数据层采用
+              <strong>MySQL</strong>
+              实现持久化存储。系统在满足校园跑腿核心业务（发布、接单、状态流转）需求的基础上，集成了完善的基础组件（如Spring
+              Security鉴权），并预留了智能派单、动态定价等 AI
+              扩展能力，具备高度的高内聚低耦合特性、良好的可维护性与可扩展性。
+            </p>
+          </div>
+
+          <!-- 图例 -->
+          <div
+            class="md:w-1/3 w-full bg-white border border-slate-200 p-4 rounded-lg shadow-sm"
+          >
+            <h3 class="font-bold text-slate-700 text-sm mb-2">图例 (Legend)</h3>
+            <div
+              class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs text-slate-600"
+            >
+              <div class="flex items-center">
+                <span class="w-6 h-0.5 bg-blue-400 mr-2"></span> 请求 / 响应
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-6 h-0.5 border-t border-dashed border-orange-400 mr-2"
+                ></span>
+                扩展 / 外部连接
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-3 h-3 bg-emerald-200 rounded-sm mr-2 border border-emerald-400"
+                ></span>
+                前端展示层
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-3 h-3 bg-blue-200 rounded-sm mr-2 border border-blue-400"
+                ></span>
+                后端服务层
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-3 h-3 bg-cyan-200 rounded-sm mr-2 border border-cyan-400"
+                ></span>
+                数据持久层
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="w-3 h-3 bg-purple-200 rounded-sm mr-2 border border-purple-400"
+                ></span>
+                第三方依赖
+              </div>
+              <div class="flex items-center col-span-2">
+                <span
+                  class="w-3 h-3 bg-orange-100 rounded-sm mr-2 border border-dashed border-orange-400"
+                ></span>
+                智能扩展模块
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 渲染所有 Lucide 图标 -->
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基于微信小程序的校园跑腿系统 — 技术架构图(最终版)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: #F5F5F2;
+  color: #2C2C2A;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 28px 32px 24px;
+  background: #FFFFFF;
+}
+
+/* 标题区 */
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+.title .dash { color: #888; font-weight: 400; margin: 0 8px; }
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 22px;
+}
+
+/* 总布局 */
+.main {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) 230px;
+  gap: 14px;
+  align-items: stretch;
+}
+.col-left, .col-right { display: flex; flex-direction: column; gap: 12px; }
+.col-center { display: flex; flex-direction: column; gap: 8px; }
+
+/* ============ 左侧用户终端 ============ */
+.users-card {
+  border: 1.5px dashed #888780;
+  border-radius: 12px;
+  padding: 14px 12px 12px;
+  background: #FAFAF7;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.users-title {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444441;
+  background: #EAF3DE;
+  border: 1px solid #97C459;
+  border-radius: 6px;
+  padding: 5px 0;
+  margin: 0 0 10px;
+}
+.user-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 0;
+}
+.user-label { font-size: 12.5px; font-weight: 500; color: #3B6D11; }
+.user-label.blue { color: #0C447C; }
+.user-label.purple { color: #3C3489; }
+
+.device {
+  width: 62px;
+  height: 96px;
+  border: 2px solid #555;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #F5F5F2 0%, #D3D1C7 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.device.phone::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
+.device.desktop {
+  width: 90px;
+  height: 66px;
+  border-radius: 6px;
+}
+.device.desktop::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 8px;
+  background: #555;
+  border-radius: 0 0 4px 4px;
+}
+.user-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #EAF3DE;
+  border: 2px solid #639922;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3B6D11;
+}
+.user-icon.blue { background: #E6F1FB; border-color: #378ADD; color: #0C447C; }
+.user-icon.purple { background: #EEEDFE; border-color: #7F77DD; color: #3C3489; }
+.user-icon svg { width: 22px; height: 22px; }
+.users-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: #F1EFE8;
+  border-left: 3px solid #888780;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ============ 中间主体层 ============ */
+.layer {
+  border-radius: 10px;
+  padding: 14px 16px;
+  position: relative;
+}
+.layer-title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.layer-title .en {
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.75;
+  margin-left: 4px;
+}
+.layer-note {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 10.5px;
+  color: #777;
+  font-style: italic;
+}
+
+/* 前端层 */
+.layer-frontend { background: #EAF3DE; border: 1px solid #639922; }
+.layer-frontend .layer-title { color: #27500A; }
+.frontend-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+.fe-card {
+  background: #FFFFFF;
+  border: 1px solid #97C459;
+  border-radius: 6px;
+  padding: 9px 7px;
+  text-align: center;
+}
+.fe-card h4 { font-size: 12.5px; font-weight: 600; color: #27500A; margin: 0 0 3px; }
+.fe-icon { color: #639922; margin: 2px 0 5px; display: flex; justify-content: center; }
+.fe-icon svg { width: 18px; height: 18px; }
+.fe-card ul {
+  list-style: none;
+  font-size: 10.5px;
+  color: #3B6D11;
+  line-height: 1.6;
+  text-align: left;
+  padding-left: 4px;
+}
+.fe-card ul li::before { content: "· "; color: #639922; }
+.fe-tip {
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: #3B6D11;
+  text-align: center;
+  font-style: italic;
+}
+
+/* 通信层 */
+.layer-network {
+  background: #FFFFFF;
+  border: 1px solid #888780;
+  padding: 10px 16px;
+}
+.network-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.network-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #E6F1FB;
+  border: 1px solid #378ADD;
+  display: flex; align-items: center; justify-content: center;
+  color: #0C447C;
+}
+.network-icon svg { width: 18px; height: 18px; }
+.network-title { font-size: 14px; font-weight: 600; color: #2C2C2A; }
+.network-desc { font-size: 12px; color: #666; }
+.network-pills { display: flex; gap: 6px; margin-left: 8px; }
+.network-pill {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: #F1EFE8;
+  color: #444441;
+  border: 1px solid #B4B2A9;
+}
+
+/* 箭头连接器(带标签) */
+.connector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 20px;
+  margin: -2px 0;
+}
+.connector-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.connector-line svg { width: 16px; height: 18px; color: #555; }
+.connector-label {
+  font-size: 10.5px;
+  color: #666;
+  font-weight: 500;
+  padding: 1px 7px;
+  background: #F5F5F2;
+  border: 1px solid #D3D1C7;
+  border-radius: 10px;
+}
+
+/* 后端层 */
+.layer-backend {
+  background: #E6F1FB;
+  border: 1px solid #185FA5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 185px;
+  gap: 12px;
+}
+.backend-main .layer-title { color: #0C447C; margin-bottom: 10px; }
+.sub-layer {
+  background: #FFFFFF;
+  border: 1px solid #85B7EB;
+  border-radius: 8px;
+  padding: 8px 10px 10px;
+  margin-bottom: 6px;
+  position: relative;
+}
+.sub-layer:last-child { margin-bottom: 0; }
+.sub-title {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0C447C;
+  margin: 0 0 3px;
+}
+.sub-duty {
+  text-align: center;
+  font-size: 10.5px;
+  color: #555;
+  margin-bottom: 7px;
+  font-style: italic;
+}
+.sub-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+.sub-item {
+  background: #F8FBFE;
+  border: 1px solid #B5D4F4;
+  border-radius: 5px;
+  padding: 7px 5px;
+  text-align: center;
+  font-size: 11.5px;
+  color: #0C447C;
+  font-weight: 500;
+}
+.arrow-down {
+  text-align: center;
+  color: #378ADD;
+  font-size: 10px;
+  margin: -1px 0;
+  line-height: 1;
+}
+
+/* 基础组件侧栏 */
+.backend-side {
+  background: #FFFFFF;
+  border: 1px solid #85B7EB;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.backend-side h4 {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0C447C;
+  margin: 0 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #E6F1FB;
+}
+.base-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 4px;
+  font-size: 11.5px;
+  color: #185FA5;
+}
+.base-item svg { width: 15px; height: 15px; flex-shrink: 0; color: #378ADD; }
+
+/* 数据层 */
+.layer-data { background: #F0F7FC; border: 1px solid #378ADD; }
+.layer-data .layer-title { color: #0C447C; }
+.data-wrap {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+.db-icon { display: flex; align-items: center; justify-content: center; color: #185FA5; }
+.db-icon svg { width: 52px; height: 52px; }
+.data-tables {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+.tbl {
+  background: #FFFFFF;
+  border: 1px solid #85B7EB;
+  border-radius: 6px;
+  padding: 7px 8px;
+}
+.tbl-name {
+  font-weight: 600;
+  color: #0C447C;
+  font-size: 11.5px;
+  margin: 0 0 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px dashed #B5D4F4;
+}
+.tbl-col {
+  color: #185FA5;
+  line-height: 1.65;
+  font-family: "SF Mono", Consolas, monospace;
+  font-size: 10.5px;
+}
+.tbl-col .pk { color: #993C1D; font-weight: 600; }
+.tbl-col .fk { color: #854F0B; font-weight: 600; }
+.tbl.reserved {
+  background: #FAFAF7;
+  border: 1px dashed #B4B2A9;
+}
+.tbl.reserved .tbl-name { color: #888; border-bottom-color: #D3D1C7; }
+.tbl.reserved .tbl-col { color: #888; }
+
+/* ============ 右侧卡片 ============ */
+.side-card {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 11px 13px;
+}
+.side-card h4 {
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 0 0 9px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid;
+}
+.side-card h4 .sub {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 400;
+  margin-top: 2px;
+}
+.side-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 0;
+  font-size: 12px;
+}
+.side-item-icon {
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.side-item-icon svg { width: 14px; height: 14px; }
+
+.card-third { background: #F1EEFE; border-color: #7F77DD; }
+.card-third h4 { color: #3C3489; border-color: #CECBF6; }
+.card-third .side-item { color: #3C3489; }
+
+.card-dev { background: #F1EEFE; border-color: #AFA9EC; }
+.card-dev h4 { color: #3C3489; border-color: #CECBF6; }
+.card-dev .side-item { color: #3C3489; }
+
+.card-deploy { background: #FAEEDA; border-color: #BA7517; }
+.card-deploy h4 { color: #633806; border-color: #FAC775; }
+.card-deploy .side-item { color: #633806; }
+
+/* ============ 底部 AI 扩展模块 ============ */
+.ai-layer {
+  margin-top: 12px;
+  background: #FAECE7;
+  border: 1.5px dashed #D85A30;
+  border-radius: 10px;
+  padding: 14px 18px;
+  position: relative;
+}
+.ai-layer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ai-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #712B13;
+}
+.ai-title .en {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #993C1D;
+  margin-left: 6px;
+}
+.ai-note {
+  font-size: 11px;
+  color: #993C1D;
+  font-style: italic;
+}
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+}
+.ai-card {
+  background: #FFFFFF;
+  border: 1px solid #F0997B;
+  border-radius: 6px;
+  padding: 9px 10px;
+  text-align: center;
+}
+.ai-card-icon { color: #D85A30; margin-bottom: 4px; display: flex; justify-content: center; }
+.ai-card-icon svg { width: 20px; height: 20px; }
+.ai-card h5 {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #712B13;
+  margin: 0 0 2px;
+}
+.ai-card p {
+  font-size: 10.5px;
+  color: #993C1D;
+  margin: 0;
+}
+.ai-connector {
+  text-align: center;
+  font-size: 10.5px;
+  color: #993C1D;
+  margin: -4px 0 8px;
+  padding: 2px 10px;
+  display: inline-block;
+  background: #FAECE7;
+  border: 1px dashed #D85A30;
+  border-radius: 10px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============ 图例 ============ */
+.legend {
+  margin-top: 14px;
+  padding: 10px 16px;
+  background: #FAFAF7;
+  border: 1px dashed #B4B2A9;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  justify-content: center;
+  font-size: 12px;
+  color: #555;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-item svg { width: 22px; height: 12px; }
+.legend-swatch {
+  width: 18px; height: 10px;
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+/* ============ 底部说明文字 ============ */
+.conclusion {
+  margin-top: 14px;
+  padding: 14px 20px;
+  background: #F5F5F2;
+  border-left: 4px solid #185FA5;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.8;
+  text-align: justify;
+}
+.conclusion strong {
+  color: #0C447C;
+  font-weight: 600;
+  font-size: 13.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 0.5px solid #E0DED7;
+  font-size: 11px;
+  color: #999;
+}
+
+@media print {
+  body { background: white; }
+  .page { box-shadow: none; padding: 8mm; max-width: 100%; }
+  @page { size: A3 landscape; margin: 6mm; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<h1 class="title">基于微信小程序的校园跑腿系统<span class="dash">—</span>技术架构图</h1>
+<p class="subtitle">前后端分离架构 · RESTful API 通信 · Spring Boot 三层架构设计 · 具备 AI 智能化扩展能力</p>
+
+<div class="main">
+
+<!-- ==================== 左侧:用户终端 ==================== -->
+<div class="col-left">
+<div class="users-card">
+<div class="users-title">用户终端</div>
+
+<div class="user-item">
+<div class="user-label">普通用户</div>
+<div class="device phone">
+<div class="user-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+</div>
+</div>
+</div>
+
+<div class="user-item">
+<div class="user-label blue">跑腿员</div>
+<div class="device phone">
+<div class="user-icon blue">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+</div>
+</div>
+</div>
+
+<div class="user-item">
+<div class="user-label purple">管理员(可选)</div>
+<div class="device desktop">
+<div class="user-icon purple">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+</div>
+</div>
+</div>
+
+<div class="users-note">
+系统用户通过微信小程序完成订单发布、接单与管理操作
+</div>
+</div>
+</div>
+
+<!-- ==================== 中间:主架构 ==================== -->
+<div class="col-center">
+
+<!-- 前端层 -->
+<div class="layer layer-frontend">
+<h2 class="layer-title">前端层<span class="en">(微信小程序)</span></h2>
+<div class="frontend-grid">
+
+<div class="fe-card">
+<h4>首页</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12L12 3l9 9"/><path d="M5 10v10h14V10"/></svg></div>
+<ul><li>轮播图</li><li>快捷入口</li><li>订单推荐</li></ul>
+</div>
+
+<div class="fe-card">
+<h4>发布订单</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l18-9-6 18-3-7-9-2z"/></svg></div>
+<ul><li>填写信息</li><li>选择类型</li><li>提交发布</li></ul>
+</div>
+
+<div class="fe-card">
+<h4>订单列表</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+<ul><li>我的订单</li><li>订单状态</li><li>订单详情</li></ul>
+</div>
+
+<div class="fe-card">
+<h4>订单详情</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v6h6"/></svg></div>
+<ul><li>订单信息</li><li>状态跟踪</li><li>联系跑腿员</li></ul>
+</div>
+
+<div class="fe-card">
+<h4>跑腿大厅</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20c0-2.5 1.8-4.5 4.5-4.5"/></svg></div>
+<ul><li>待接单列表</li><li>订单筛选</li><li>订单详情</li></ul>
+</div>
+
+<div class="fe-card">
+<h4>接单管理</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 12l3 3 5-6"/></svg></div>
+<ul><li>我的接单</li><li>进行中订单</li><li>完成订单</li></ul>
+</div>
+
+<div class="fe-card">
+<h4>个人中心</h4>
+<div class="fe-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+<ul><li>用户信息</li><li>我的钱包(后续)</li><li>设置</li></ul>
+</div>
+
+</div>
+<div class="fe-tip">职责:页面展示 · 表单交互 · 状态展示 · 调用后端接口(不直接操作数据库)</div>
+</div>
+
+<!-- 箭头(带标签) -->
+<div class="connector">
+<div class="connector-line">
+<svg viewBox="0 0 16 18"><path d="M8 0v16M3 12l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<span class="connector-label">请求</span>
+<span class="connector-label">响应</span>
+<div class="connector-line">
+<svg viewBox="0 0 16 18"><path d="M8 18V2M3 6l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+</div>
+
+<!-- 网络通信层 -->
+<div class="layer layer-network">
+<div class="network-inner">
+<div class="network-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3 4.5 6.5 4.5 10s-1.5 7-4.5 10c-3-3-4.5-6.5-4.5-10S9 5 12 2z"/></svg>
+</div>
+<div class="network-title">网络通信层</div>
+<div class="network-desc">前后端数据交互</div>
+<div class="network-pills">
+<span class="network-pill">HTTPS</span>
+<span class="network-pill">RESTful API</span>
+<span class="network-pill">JSON</span>
+</div>
+</div>
+</div>
+
+<div class="connector">
+<div class="connector-line">
+<svg viewBox="0 0 16 18"><path d="M8 0v16M3 12l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<span class="connector-label">调用接口</span>
+<span class="connector-label">返回数据</span>
+<div class="connector-line">
+<svg viewBox="0 0 16 18"><path d="M8 18V2M3 6l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+</div>
+
+<!-- 后端层 -->
+<div class="layer layer-backend">
+
+<div class="backend-main">
+<h2 class="layer-title">后端服务层<span class="en">(Spring Boot)</span></h2>
+
+<div class="sub-layer">
+<div class="sub-title">① 接口层(Controller)</div>
+<div class="sub-duty">接收前端请求 · 参数校验 · 返回统一响应结果</div>
+<div class="sub-grid">
+<div class="sub-item">用户接口</div>
+<div class="sub-item">订单接口</div>
+<div class="sub-item">接单接口</div>
+<div class="sub-item">状态接口</div>
+<div class="sub-item">文件接口</div>
+<div class="sub-item">通用接口</div>
+</div>
+</div>
+
+<div class="arrow-down">▼</div>
+
+<div class="sub-layer">
+<div class="sub-title">② 业务逻辑层(Service)</div>
+<div class="sub-duty">实现业务规则 · 控制订单流转 · 处理核心系统逻辑</div>
+<div class="sub-grid">
+<div class="sub-item">用户服务</div>
+<div class="sub-item">订单服务</div>
+<div class="sub-item">接单服务</div>
+<div class="sub-item">状态管理服务</div>
+<div class="sub-item">通知服务</div>
+<div class="sub-item">其他服务</div>
+</div>
+</div>
+
+<div class="arrow-down">▼</div>
+
+<div class="sub-layer">
+<div class="sub-title">③ 数据访问层(Mapper / Repository)</div>
+<div class="sub-duty">与数据库交互 · 执行增删改查 · 持久化系统数据</div>
+<div class="sub-grid">
+<div class="sub-item">用户DAO</div>
+<div class="sub-item">订单DAO</div>
+<div class="sub-item">接单DAO</div>
+<div class="sub-item">状态DAO</div>
+<div class="sub-item">文件DAO</div>
+<div class="sub-item">通用DAO</div>
+</div>
+</div>
+</div>
+
+<!-- 基础组件 -->
+<div class="backend-side">
+<h4>基础组件</h4>
+<div class="base-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-0.5 8-5 8-10V6l-8-4z"/></svg>
+Spring Security
+</div>
+<div class="base-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="12" r="4"/><path d="M12 12h10M18 12v4M22 12v2"/></svg>
+JWT 认证
+</div>
+<div class="base-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 20h20L12 2z"/><path d="M12 9v5M12 17v.5"/></svg>
+全局异常处理
+</div>
+<div class="base-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+日志记录
+</div>
+<div class="base-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="2.5"/><path d="M4 5v7c0 1.5 3.5 2.5 8 2.5s8-1 8-2.5V5M4 12v7c0 1.5 3.5 2.5 8 2.5s8-1 8-2.5v-7"/></svg>
+事务管理
+</div>
+<div class="base-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg>
+统一返回结构
+</div>
+</div>
+
+</div>
+
+<div class="connector">
+<div class="connector-line">
+<svg viewBox="0 0 16 18"><path d="M8 0v16M3 12l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<span class="connector-label">数据访问</span>
+<span class="connector-label">数据返回</span>
+<div class="connector-line">
+<svg viewBox="0 0 16 18"><path d="M8 18V2M3 6l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+</div>
+
+<!-- 数据层 -->
+<div class="layer layer-data">
+<h2 class="layer-title">数据层<span class="en">(MySQL)</span></h2>
+<div class="data-wrap">
+<div class="db-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="2.5"/><path d="M3 5v5c0 1.5 4 2.5 9 2.5s9-1 9-2.5V5M3 10v5c0 1.5 4 2.5 9 2.5s9-1 9-2.5v-5M3 15v4c0 1.5 4 2.5 9 2.5s9-1 9-2.5v-4"/></svg>
+</div>
+<div class="data-tables">
+
+<div class="tbl">
+<div class="tbl-name">user 表</div>
+<div class="tbl-col">
+<span class="pk">id (PK)</span><br>
+username<br>
+password<br>
+role<br>
+...
+</div>
+</div>
+
+<div class="tbl">
+<div class="tbl-name">order 表</div>
+<div class="tbl-col">
+<span class="pk">id (PK)</span><br>
+<span class="fk">user_id (FK)</span><br>
+title<br>
+content<br>
+status
+</div>
+</div>
+
+<div class="tbl">
+<div class="tbl-name">order_item 表</div>
+<div class="tbl-col">
+<span class="pk">id (PK)</span><br>
+<span class="fk">order_id (FK)</span><br>
+item_name<br>
+price<br>
+...
+</div>
+</div>
+
+<div class="tbl">
+<div class="tbl-name">order_receive 表</div>
+<div class="tbl-col">
+<span class="pk">id (PK)</span><br>
+<span class="fk">order_id (FK)</span><br>
+name<br>
+phone<br>
+address
+</div>
+</div>
+
+<div class="tbl">
+<div class="tbl-name">runner_order 表</div>
+<div class="tbl-col">
+<span class="pk">id (PK)</span><br>
+<span class="fk">order_id (FK)</span><br>
+<span class="fk">runner_id (FK)</span><br>
+status<br>
+...
+</div>
+</div>
+
+<div class="tbl">
+<div class="tbl-name">runner 表</div>
+<div class="tbl-col">
+<span class="pk">id (PK)</span><br>
+<span class="fk">user_id (FK)</span><br>
+real_name<br>
+phone<br>
+...
+</div>
+</div>
+
+<div class="tbl reserved">
+<div class="tbl-name">扩展表</div>
+<div class="tbl-col">
+预留<br>
+……
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- ==================== 右侧 ==================== -->
+<div class="col-right">
+
+<!-- 第三方服务 -->
+<div class="side-card card-third">
+<h4>第三方服务</h4>
+<div class="side-item">
+<div class="side-item-icon" style="background:#97C459;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 8a7 7 0 0 0-7 7 7 7 0 0 0 .8 3.2l-.8 2.8 3-1.2a7 7 0 0 0 3 .8c.4 0 .8-.1 1.2-.2-.2-.6-.2-1.2-.2-1.6a6 6 0 0 1 6-6h.4a6.5 6.5 0 0 0-6.4-5z"/><circle cx="6" cy="13" r="1" fill="#FFF"/><circle cx="12" cy="13" r="1" fill="#FFF"/></svg>
+</div>
+微信登录
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#EF9F27;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v4l-2 3v1h16v-1l-2-3V8a6 6 0 0 0-6-6zm-2 18a2 2 0 0 0 4 0h-4z"/></svg>
+</div>
+微信订阅消息
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#E24B4A;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+</div>
+地图服务(可选)
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#378ADD;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 6v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zm10 7L3 7h18l-9 6z"/></svg>
+</div>
+短信服务(可选)
+</div>
+</div>
+
+<!-- 开发工具 -->
+<div class="side-card card-dev">
+<h4>开发工具</h4>
+<div class="side-item">
+<div class="side-item-icon" style="background:#C0DD97;color:#27500A">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+</div>
+微信开发者工具
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#2C2C2A;color:#EF9F27">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v2l-2 1v10l2 1v2H4V4zm16 0h-4v2l2 1v10l-2 1v2h4V4zm-8 4h-1v9h1V8z"/></svg>
+</div>
+IntelliJ IDEA
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#1D9E75;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg>
+</div>
+Navicat / DBeaver
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#E85D24;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="#FFF"/></svg>
+</div>
+Postman
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#2C2C2A;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-2c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.7-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>
+</div>
+Git / GitHub
+</div>
+</div>
+
+<!-- 部署环境 -->
+<div class="side-card card-deploy">
+<h4>部署环境<span class="sub">(本地开发 / 演示)</span></h4>
+<div class="side-item">
+<div class="side-item-icon" style="background:#2C2C2A;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="4" width="20" height="13" rx="1"/><path d="M1 19h22v1c0 .5-.5 1-1 1H2c-.5 0-1-.5-1-1v-1z"/></svg>
+</div>
+MacBook Air
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#E24B4A;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-2 3-4 5-4 9 0 3 2 5 4 6v5h1v-5c2-1 4-3 4-6 0-4-2-6-5-9z"/></svg>
+</div>
+JDK 17+
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#1D9E75;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v5c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v5c0 1.7 3.6 3 8 3s8-1.3 8-3v-5"/></svg>
+</div>
+MySQL 8.0+
+</div>
+<div class="side-item">
+<div class="side-item-icon" style="background:#E85D24;color:#FFFFFF">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l-9 5v10l9 5 9-5V7l-9-5zm0 2.5L18 8l-6 3.5L6 8l6-3.5z"/></svg>
+</div>
+Maven
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- ==================== 底部:智能扩展模块 ==================== -->
+<div style="text-align:center;margin-top:8px">
+<span class="ai-connector">⇡ 虚线连接后端 · 预留扩展接口 ⇡</span>
+</div>
+
+<div class="ai-layer">
+<div class="ai-layer-head">
+<div>
+<span class="ai-title">智能扩展模块</span>
+<span class="en">(AI · 预留 · 未来实现)</span>
+</div>
+<div class="ai-note">本系统不仅是普通跑腿系统,还具备智能化扩展潜力</div>
+</div>
+
+<div class="ai-grid">
+
+<div class="ai-card">
+<div class="ai-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/></svg></div>
+<h5>智能派单(AI)</h5>
+<p>基于距离、评分、负载综合推荐</p>
+</div>
+
+<div class="ai-card">
+<div class="ai-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></div>
+<h5>动态定价</h5>
+<p>根据时段、距离、天气调整</p>
+</div>
+
+<div class="ai-card">
+<div class="ai-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 4 5-8"/></svg></div>
+<h5>数据分析</h5>
+<p>订单量 / 活跃度可视化</p>
+</div>
+
+<div class="ai-card">
+<div class="ai-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/></svg></div>
+<h5>智能推荐</h5>
+<p>根据历史订单个性化推荐</p>
+</div>
+
+<div class="ai-card">
+<div class="ai-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17v.5"/></svg></div>
+<h5>异常预警</h5>
+<p>超时、拒单、投诉监控</p>
+</div>
+
+</div>
+</div>
+
+<!-- ==================== 图例 ==================== -->
+<div class="legend">
+<div class="legend-item">
+<svg viewBox="0 0 22 12"><path d="M1 6h17M14 2l5 4-5 4" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/></svg>
+实线箭头 · 请求 / 响应
+</div>
+<div class="legend-item">
+<svg viewBox="0 0 22 12"><path d="M1 6h17M14 2l5 4-5 4" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 2"/></svg>
+虚线箭头 · 数据交互 / 扩展连接
+</div>
+<div class="legend-item"><span class="legend-swatch" style="background:#EAF3DE;border-color:#639922"></span>绿色 · 前端层</div>
+<div class="legend-item"><span class="legend-swatch" style="background:#E6F1FB;border-color:#185FA5"></span>蓝色 · 后端层</div>
+<div class="legend-item"><span class="legend-swatch" style="background:#F0F7FC;border-color:#378ADD"></span>浅蓝 · 数据层</div>
+<div class="legend-item"><span class="legend-swatch" style="background:#F1EEFE;border-color:#7F77DD"></span>紫色 · 外部服务 / 工具</div>
+<div class="legend-item"><span class="legend-swatch" style="background:#FAECE7;border-color:#D85A30"></span>橙色 · 扩展模块</div>
+<div class="legend-item"><span class="legend-swatch" style="background:#FAEEDA;border-color:#EF9F27"></span>琥珀 · 部署环境</div>
+</div>
+
+<!-- ==================== 系统核心说明 ==================== -->
+<div class="conclusion">
+<strong>系统核心说明</strong>
+本系统采用<u>前后端分离架构</u>,前端基于<u>微信小程序</u>实现用户交互,后端基于 <u>Spring Boot</u> 构建 RESTful 服务,数据层采用 <u>MySQL</u> 实现持久化存储。系统在满足校园跑腿核心业务需求的基础上,预留了<u>智能派单、动态定价和数据分析</u>等扩展能力,具备良好的可维护性与可扩展性。
+</div>
+
+<div class="footer">基于微信小程序的校园跑腿系统 · 技术架构图(最终版)· 毕业论文与答辩展示</div>
+
+</div>
+</body>
+</html>
