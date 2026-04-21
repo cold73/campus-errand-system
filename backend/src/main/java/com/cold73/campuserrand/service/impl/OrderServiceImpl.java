@@ -2,6 +2,7 @@ package com.cold73.campuserrand.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.entity.OrderReceive;
@@ -123,6 +124,48 @@ public class OrderServiceImpl implements OrderService {
         update.setId(dto.getOrderId());
         update.setStatus(1); // 1-已接单
         orderMapper.updateById(update);
+
+        return runnerOrder.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long pickupOrder(PickupOrderDTO dto) {
+        // 1. 校验订单存在
+        Order order = orderMapper.selectById(dto.getOrderId());
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        // 2. 校验订单处于"已接单"状态
+        if (order.getStatus() == null || order.getStatus() != 1) {
+            throw new BusinessException("订单当前状态不允许取货");
+        }
+        // 3. 校验接单关系存在且属于当前跑腿员
+        RunnerOrder runnerOrder = runnerOrderMapper.selectOne(
+                Wrappers.<RunnerOrder>lambdaQuery()
+                        .eq(RunnerOrder::getOrderId, dto.getOrderId())
+                        .eq(RunnerOrder::getRunnerId, dto.getRunnerId())
+        );
+        if (runnerOrder == null) {
+            throw new BusinessException("该订单不属于你");
+        }
+        // 4. 校验接单关系处于"已接单"状态
+        if (runnerOrder.getStatus() == null || runnerOrder.getStatus() != 0) {
+            throw new BusinessException("接单关系当前状态不允许取货");
+        }
+
+        // 5. 更新接单关系状态为"进行中" + 记录取货时间
+        RunnerOrder runnerUpdate = new RunnerOrder();
+        runnerUpdate.setId(runnerOrder.getId());
+        runnerUpdate.setStatus(1); // 1-进行中
+        runnerUpdate.setPickupTime(LocalDateTime.now());
+        runnerOrderMapper.updateById(runnerUpdate);
+
+        // 6. 更新订单主表状态为"进行中"
+        Order orderUpdate = new Order();
+        orderUpdate.setId(dto.getOrderId());
+        orderUpdate.setStatus(2); // 2-进行中
+        orderMapper.updateById(orderUpdate);
 
         return runnerOrder.getId();
     }

@@ -2,6 +2,7 @@ package com.cold73.campuserrand.controller;
 
 import com.cold73.campuserrand.common.Result;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.exception.BusinessException;
@@ -91,5 +92,21 @@ public class OrderController {
     @GetMapping("/hall")
     public Result<List<Order>> hall() {
         return Result.success(orderService.listAvailableOrders());
+    }
+
+    /**
+     * 跑腿员取货确认：订单 1→2（进行中），接单关系 0→1（进行中），记录取货时间
+     *
+     * @param dto 取货参数（orderId + runnerId）
+     * @return 接单关系记录的 ID
+     */
+    @PostMapping("/pickup")
+    public Result<Long> pickupOrder(@RequestBody @Valid PickupOrderDTO dto) {
+        try {
+            Long runnerOrderId = orderService.pickupOrder(dto);
+            return Result.success(runnerOrderId);
+        } catch (BusinessException e) {
+            return Result.error(e.getMessage());
+        }
     }
 }

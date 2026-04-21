@@ -1,6 +1,7 @@
 package com.cold73.campuserrand.service;
 
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.vo.OrderDetailVO;
@@ -51,4 +52,14 @@ public interface OrderService {
      * @return 可接订单列表
      */
     List<Order> listAvailableOrders();
+
+    /**
+     * 跑腿员取货确认：
+     * 订单状态 1(已接单) → 2(进行中)，接单关系状态 0(已接单) → 1(进行中)，记录取货时间
+     * 校验失败时抛出 BusinessException
+     *
+     * @param dto 取货参数（orderId + runnerId）
+     * @return 接单关系记录的 ID
+     */
+    Long pickupOrder(PickupOrderDTO dto);
 }
