@@ -82,4 +82,14 @@ public class OrderController {
             return Result.error(e.getMessage());
         }
     }
+
+    /**
+     * 跑腿大厅：查询所有可接订单（status=0 待接单）
+     *
+     * @return 可接订单列表（按创建时间倒序）
+     */
+    @GetMapping("/hall")
+    public Result<List<Order>> hall() {
+        return Result.success(orderService.listAvailableOrders());
+    }
 }

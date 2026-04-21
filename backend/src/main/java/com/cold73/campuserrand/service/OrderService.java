@@ -44,4 +44,11 @@ public interface OrderService {
      * @return 新建接单关系记录的 ID
      */
     Long takeOrder(TakeOrderDTO dto);
+
+    /**
+     * 查询跑腿大厅订单列表（status = 0 待接单，按创建时间倒序）
+     *
+     * @return 可接订单列表
+     */
+    List<Order> listAvailableOrders();
 }

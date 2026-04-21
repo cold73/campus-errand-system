@@ -89,6 +89,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> listAvailableOrders() {
+        return orderMapper.selectList(
+                Wrappers.<Order>lambdaQuery()
+                        .eq(Order::getStatus, 0)
+                        .orderByDesc(Order::getCreateTime)
+        );
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Long takeOrder(TakeOrderDTO dto) {
         // 1. 校验订单存在
