@@ -2,6 +2,7 @@ package com.cold73.campuserrand.controller;
 
 import com.cold73.campuserrand.common.Result;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.FinishOrderDTO;
 import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
@@ -104,6 +105,22 @@ public class OrderController {
     public Result<Long> pickupOrder(@RequestBody @Valid PickupOrderDTO dto) {
         try {
             Long runnerOrderId = orderService.pickupOrder(dto);
+            return Result.success(runnerOrderId);
+        } catch (BusinessException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 跑腿员完成订单：订单 2→3（已完成），接单关系 1→2（已完成），记录完成时间
+     *
+     * @param dto 完成参数（orderId + runnerId）
+     * @return 接单关系记录的 ID
+     */
+    @PostMapping("/finish")
+    public Result<Long> finishOrder(@RequestBody @Valid FinishOrderDTO dto) {
+        try {
+            Long runnerOrderId = orderService.finishOrder(dto);
             return Result.success(runnerOrderId);
         } catch (BusinessException e) {
             return Result.error(e.getMessage());

@@ -2,6 +2,7 @@ package com.cold73.campuserrand.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.FinishOrderDTO;
 import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
@@ -165,6 +166,48 @@ public class OrderServiceImpl implements OrderService {
         Order orderUpdate = new Order();
         orderUpdate.setId(dto.getOrderId());
         orderUpdate.setStatus(2); // 2-进行中
+        orderMapper.updateById(orderUpdate);
+
+        return runnerOrder.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long finishOrder(FinishOrderDTO dto) {
+        // 1. 校验订单存在
+        Order order = orderMapper.selectById(dto.getOrderId());
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        // 2. 校验订单处于"进行中"状态
+        if (order.getStatus() == null || order.getStatus() != 2) {
+            throw new BusinessException("订单当前状态不允许完成");
+        }
+        // 3. 校验接单关系存在且属于当前跑腿员
+        RunnerOrder runnerOrder = runnerOrderMapper.selectOne(
+                Wrappers.<RunnerOrder>lambdaQuery()
+                        .eq(RunnerOrder::getOrderId, dto.getOrderId())
+                        .eq(RunnerOrder::getRunnerId, dto.getRunnerId())
+        );
+        if (runnerOrder == null) {
+            throw new BusinessException("该订单不属于你");
+        }
+        // 4. 校验接单关系处于"进行中"状态
+        if (runnerOrder.getStatus() == null || runnerOrder.getStatus() != 1) {
+            throw new BusinessException("接单关系当前状态不允许完成");
+        }
+
+        // 5. 更新接单关系状态为"已完成" + 记录完成时间
+        RunnerOrder runnerUpdate = new RunnerOrder();
+        runnerUpdate.setId(runnerOrder.getId());
+        runnerUpdate.setStatus(2); // 2-已完成
+        runnerUpdate.setFinishTime(LocalDateTime.now());
+        runnerOrderMapper.updateById(runnerUpdate);
+
+        // 6. 更新订单主表状态为"已完成"
+        Order orderUpdate = new Order();
+        orderUpdate.setId(dto.getOrderId());
+        orderUpdate.setStatus(3); // 3-已完成
         orderMapper.updateById(orderUpdate);
 
         return runnerOrder.getId();
