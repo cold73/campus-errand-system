@@ -2,7 +2,9 @@ package com.cold73.campuserrand.controller;
 
 import com.cold73.campuserrand.common.Result;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
+import com.cold73.campuserrand.exception.BusinessException;
 import com.cold73.campuserrand.service.OrderService;
 import com.cold73.campuserrand.vo.OrderDetailVO;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +65,21 @@ public class OrderController {
             return Result.error(404, "订单不存在");
         }
         return Result.success(vo);
+    }
+
+    /**
+     * 跑腿员接单：插入接单记录 + 推进订单状态到"已接单"
+     *
+     * @param dto 接单参数（orderId + runnerId）
+     * @return 新建接单关系记录的 ID
+     */
+    @PostMapping("/take")
+    public Result<Long> takeOrder(@RequestBody @Valid TakeOrderDTO dto) {
+        try {
+            Long runnerOrderId = orderService.takeOrder(dto);
+            return Result.success(runnerOrderId);
+        } catch (BusinessException e) {
+            return Result.error(e.getMessage());
+        }
     }
 }

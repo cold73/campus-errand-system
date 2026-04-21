@@ -2,10 +2,14 @@ package com.cold73.campuserrand.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
+import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.entity.OrderReceive;
+import com.cold73.campuserrand.entity.RunnerOrder;
+import com.cold73.campuserrand.exception.BusinessException;
 import com.cold73.campuserrand.mapper.OrderMapper;
 import com.cold73.campuserrand.mapper.OrderReceiveMapper;
+import com.cold73.campuserrand.mapper.RunnerOrderMapper;
 import com.cold73.campuserrand.service.OrderService;
 import com.cold73.campuserrand.vo.OrderDetailVO;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final OrderReceiveMapper orderReceiveMapper;
+    private final RunnerOrderMapper runnerOrderMapper;
 
     private static final DateTimeFormatter ORDER_NO_FORMATTER =
             DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -81,6 +86,36 @@ public class OrderServiceImpl implements OrderService {
                         .eq(OrderReceive::getOrderId, id)
         );
         return new OrderDetailVO(order, receive);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long takeOrder(TakeOrderDTO dto) {
+        // 1. 校验订单存在
+        Order order = orderMapper.selectById(dto.getOrderId());
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        // 2. 校验订单处于"待接单"状态
+        if (order.getStatus() == null || order.getStatus() != 0) {
+            throw new BusinessException("订单当前状态不允许接单");
+        }
+
+        // 3. 插入接单关系记录
+        RunnerOrder runnerOrder = new RunnerOrder();
+        runnerOrder.setOrderId(dto.getOrderId());
+        runnerOrder.setRunnerId(dto.getRunnerId());
+        runnerOrder.setStatus(0); // 0-已接单
+        runnerOrder.setTakeTime(LocalDateTime.now());
+        runnerOrderMapper.insert(runnerOrder);
+
+        // 4. 更新订单主表状态为"已接单"
+        Order update = new Order();
+        update.setId(dto.getOrderId());
+        update.setStatus(1); // 1-已接单
+        orderMapper.updateById(update);
+
+        return runnerOrder.getId();
     }
 
     /**
