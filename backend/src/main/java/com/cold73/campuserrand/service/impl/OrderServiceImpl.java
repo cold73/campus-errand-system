@@ -1,11 +1,13 @@
 package com.cold73.campuserrand.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.entity.OrderReceive;
 import com.cold73.campuserrand.mapper.OrderMapper;
 import com.cold73.campuserrand.mapper.OrderReceiveMapper;
 import com.cold73.campuserrand.service.OrderService;
+import com.cold73.campuserrand.vo.OrderDetailVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -56,6 +59,28 @@ public class OrderServiceImpl implements OrderService {
         orderReceiveMapper.insert(receive);
 
         return order.getId();
+    }
+
+    @Override
+    public List<Order> listByUserId(Long userId) {
+        return orderMapper.selectList(
+                Wrappers.<Order>lambdaQuery()
+                        .eq(Order::getUserId, userId)
+                        .orderByDesc(Order::getId)
+        );
+    }
+
+    @Override
+    public OrderDetailVO getDetail(Long id) {
+        Order order = orderMapper.selectById(id);
+        if (order == null) {
+            return null;
+        }
+        OrderReceive receive = orderReceiveMapper.selectOne(
+                Wrappers.<OrderReceive>lambdaQuery()
+                        .eq(OrderReceive::getOrderId, id)
+        );
+        return new OrderDetailVO(order, receive);
     }
 
     /**
