@@ -1,1 +1,144 @@
-/* 我的接单页面样式 */
+.container {
+  padding: 24rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.state-tip {
+  text-align: center;
+  padding-top: 200rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.state-tip .empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.state-tip .empty-sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #bbb;
+}
+
+.summary {
+  font-size: 26rpx;
+  color: #666;
+  padding: 8rpx 12rpx 16rpx;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.title {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-right: 16rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-tag {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  flex-shrink: 0;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.type-tag {
+  background: #f2f4f7;
+  color: #666;
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+  margin-right: 16rpx;
+}
+
+.order-no {
+  color: #999;
+}
+
+.content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 16rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.time-row {
+  display: flex;
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.6;
+}
+
+.time-label {
+  width: 140rpx;
+  color: #bbb;
+}
+
+.time-val {
+  flex: 1;
+  color: #666;
+}
+
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.price-wrap {
+  display: flex;
+  align-items: baseline;
+}
+
+.price {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #e64340;
+}
+
+.tip {
+  font-size: 24rpx;
+  color: #ff9f00;
+  margin-left: 16rpx;
+}
+
+.action-btn {
+  font-size: 26rpx;
+  padding: 0 28rpx;
+  line-height: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+}

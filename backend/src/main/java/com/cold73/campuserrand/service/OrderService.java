@@ -5,6 +5,7 @@ import com.cold73.campuserrand.dto.FinishOrderDTO;
 import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
+import com.cold73.campuserrand.vo.MyTaskVO;
 import com.cold73.campuserrand.vo.OrderDetailVO;
 
 import java.util.List;
@@ -73,4 +74,13 @@ public interface OrderService {
      * @return 接单关系记录的 ID
      */
     Long finishOrder(FinishOrderDTO dto);
+
+    /**
+     * 查询某跑腿员的"我的接单"列表
+     * 按接单时间倒序，包含该跑腿员历史所有接过的订单
+     *
+     * @param runnerId 跑腿员ID
+     * @return 合并订单主信息 + 接单时间节点的 VO 列表
+     */
+    List<MyTaskVO> listTasksByRunnerId(Long runnerId);
 }

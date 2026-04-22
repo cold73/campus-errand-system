@@ -1,4 +1,67 @@
 <view class="container">
-  <view class="page-title">我的接单</view>
-  <view class="placeholder">此处将展示当前跑腿员已接/进行中/已完成的任务（TODO）</view>
+  <view class="state-tip" wx:if="{{loading && tasks.length === 0}}">加载中...</view>
+
+  <view class="state-tip" wx:elif="{{tasks.length === 0}}">
+    <view class="empty-icon">📦</view>
+    <view>你还没有接到订单</view>
+    <view class="empty-sub">去跑腿大厅看看吧</view>
+  </view>
+
+  <block wx:else>
+    <view class="summary">共 {{tasks.length}} 条接单记录</view>
+
+    <view
+      class="card"
+      wx:for="{{tasks}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="header-row">
+        <view class="title">{{item.title}}</view>
+        <view
+          class="status-tag"
+          style="color: {{item.statusColor}}; background: {{item.statusBg}};"
+        >
+          {{item.statusLabel}}
+        </view>
+      </view>
+
+      <view class="meta-row">
+        <text class="type-tag">{{item.typeLabel}}</text>
+        <text class="order-no">订单号 {{item.orderNo}}</text>
+      </view>
+
+      <view class="content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+
+      <view class="time-row">
+        <text class="time-label">接单时间</text>
+        <text class="time-val">{{item.displayTakeTime || '-'}}</text>
+      </view>
+      <view class="time-row">
+        <text class="time-label">创建时间</text>
+        <text class="time-val">{{item.displayCreateTime}}</text>
+      </view>
+
+      <view class="footer-row">
+        <view class="price-wrap">
+          <text class="price">¥{{item.displayPrice}}</text>
+          <text class="tip" wx:if="{{item.hasTip}}">小费 ¥{{item.displayTip}}</text>
+        </view>
+        <button
+          wx:if="{{item.action}}"
+          class="action-btn"
+          size="mini"
+          type="primary"
+          catchtap="onAction"
+          data-id="{{item.id}}"
+          data-type="{{item.action.type}}"
+          data-title="{{item.title}}"
+          disabled="{{submitting}}"
+        >
+          {{item.action.label}}
+        </button>
+      </view>
+    </view>
+  </block>
 </view>

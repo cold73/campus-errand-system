@@ -8,6 +8,7 @@ import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.exception.BusinessException;
 import com.cold73.campuserrand.service.OrderService;
+import com.cold73.campuserrand.vo.MyTaskVO;
 import com.cold73.campuserrand.vo.OrderDetailVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,5 +126,16 @@ public class OrderController {
         } catch (BusinessException e) {
             return Result.error(e.getMessage());
         }
+    }
+
+    /**
+     * 查询某跑腿员的"我的接单"列表
+     *
+     * @param runnerId 跑腿员ID
+     * @return 合并订单主信息 + 接单时间节点的列表（按接单时间倒序）
+     */
+    @GetMapping("/my-tasks")
+    public Result<List<MyTaskVO>> myTasks(@RequestParam Long runnerId) {
+        return Result.success(orderService.listTasksByRunnerId(runnerId));
     }
 }

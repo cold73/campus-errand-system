@@ -17,6 +17,7 @@ const API = {
   ORDER_TAKE: '/api/order/take',          // POST 接单
   ORDER_PICKUP: '/api/order/pickup',      // POST 取货确认
   ORDER_FINISH: '/api/order/finish',      // POST 完成订单
+  ORDER_MY_TASKS: '/api/order/my-tasks',  // GET  我的接单列表 ?runnerId=
 };
 
 module.exports = {

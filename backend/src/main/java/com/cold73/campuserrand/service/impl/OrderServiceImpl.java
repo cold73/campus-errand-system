@@ -13,6 +13,7 @@ import com.cold73.campuserrand.mapper.OrderMapper;
 import com.cold73.campuserrand.mapper.OrderReceiveMapper;
 import com.cold73.campuserrand.mapper.RunnerOrderMapper;
 import com.cold73.campuserrand.service.OrderService;
+import com.cold73.campuserrand.vo.MyTaskVO;
 import com.cold73.campuserrand.vo.OrderDetailVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 /**
  * 订单业务 Service 实现
@@ -211,6 +216,49 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateById(orderUpdate);
 
         return runnerOrder.getId();
+    }
+
+    @Override
+    public List<MyTaskVO> listTasksByRunnerId(Long runnerId) {
+        // 1. 按 runnerId 查接单关系表，按接单时间倒序
+        List<RunnerOrder> runnerOrders = runnerOrderMapper.selectList(
+                Wrappers.<RunnerOrder>lambdaQuery()
+                        .eq(RunnerOrder::getRunnerId, runnerId)
+                        .orderByDesc(RunnerOrder::getTakeTime)
+        );
+        if (runnerOrders.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // 2. 批量拉对应的订单主表
+        List<Long> orderIds = runnerOrders.stream()
+                .map(RunnerOrder::getOrderId)
+                .collect(Collectors.toList());
+        Map<Long, Order> orderMap = orderMapper.selectBatchIds(orderIds).stream()
+                .collect(Collectors.toMap(Order::getId, o -> o));
+
+        // 3. 按接单时间倒序合并为 VO
+        return runnerOrders.stream()
+                .map(ro -> {
+                    Order o = orderMap.get(ro.getOrderId());
+                    if (o == null) return null;
+                    MyTaskVO vo = new MyTaskVO();
+                    vo.setId(o.getId());
+                    vo.setOrderNo(o.getOrderNo());
+                    vo.setTitle(o.getTitle());
+                    vo.setContent(o.getContent());
+                    vo.setOrderType(o.getOrderType());
+                    vo.setPrice(o.getPrice());
+                    vo.setTip(o.getTip());
+                    vo.setStatus(o.getStatus());
+                    vo.setExpectFinishTime(o.getExpectFinishTime());
+                    vo.setCreateTime(o.getCreateTime());
+                    vo.setTakeTime(ro.getTakeTime());
+                    vo.setPickupTime(ro.getPickupTime());
+                    return vo;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /**
