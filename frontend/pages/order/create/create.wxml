@@ -1,4 +1,107 @@
 <view class="container">
   <view class="page-title">发布订单</view>
-  <view class="placeholder">此处将承载订单发布表单（TODO）</view>
+
+  <view class="form-item">
+    <view class="label">订单标题<text class="required">*</text></view>
+    <input class="input"
+           placeholder="如：代拿菜鸟驿站快递"
+           value="{{form.title}}"
+           data-field="title"
+           bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">订单描述</view>
+    <textarea class="textarea"
+              placeholder="补充说明需求、快递单号、注意事项等"
+              value="{{form.content}}"
+              data-field="content"
+              bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">订单类型<text class="required">*</text></view>
+    <picker mode="selector"
+            range="{{orderTypes}}"
+            value="{{orderTypeIndex}}"
+            bindchange="onOrderTypeChange">
+      <view class="picker">{{orderTypes[orderTypeIndex]}}</view>
+    </picker>
+  </view>
+
+  <view class="form-item">
+    <view class="label">订单金额（元）<text class="required">*</text></view>
+    <input class="input"
+           type="digit"
+           placeholder="0.00"
+           value="{{form.price}}"
+           data-field="price"
+           bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">跑腿费 / 小费（元）</view>
+    <input class="input"
+           type="digit"
+           placeholder="可选，默认 0"
+           value="{{form.tip}}"
+           data-field="tip"
+           bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">期望完成时间</view>
+    <view class="datetime-row">
+      <picker mode="date" value="{{date}}" start="{{today}}" bindchange="onDateChange">
+        <view class="picker">{{date || '选择日期'}}</view>
+      </picker>
+      <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+        <view class="picker">{{time || '选择时间'}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="form-item">
+    <view class="label">收货人姓名<text class="required">*</text></view>
+    <input class="input"
+           placeholder="请输入收货人姓名"
+           value="{{form.receiverName}}"
+           data-field="receiverName"
+           bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">收货人电话<text class="required">*</text></view>
+    <input class="input"
+           type="number"
+           maxlength="11"
+           placeholder="11 位手机号"
+           value="{{form.receiverPhone}}"
+           data-field="receiverPhone"
+           bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">收货地址<text class="required">*</text></view>
+    <textarea class="textarea"
+              placeholder="详细收货地址"
+              value="{{form.receiverAddress}}"
+              data-field="receiverAddress"
+              bindinput="onInput" />
+  </view>
+
+  <view class="form-item">
+    <view class="label">取货地址</view>
+    <textarea class="textarea"
+              placeholder="代拿场景请填写，如菜鸟驿站 / 快递柜"
+              value="{{form.pickupAddress}}"
+              data-field="pickupAddress"
+              bindinput="onInput" />
+  </view>
+
+  <button class="submit-btn"
+          type="primary"
+          loading="{{submitting}}"
+          disabled="{{submitting}}"
+          bindtap="onSubmit">提交订单</button>
 </view>
