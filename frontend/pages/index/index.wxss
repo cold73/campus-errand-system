@@ -1,10 +1,511 @@
-.section {
-  margin-top: 48rpx;
+/* ==========================================================================
+   首页（校跑 CampusRun）
+   设计风格：editorial magazine，paper 底 + ink 黑 + orange + acid green
+   小程序不能用 Google Fonts，Bodoni / JetBrains Mono 降级到系统 serif / mono
+   ========================================================================== */
+
+page {
+  background: #F2EDE4;
 }
 
-.section-title {
+.page {
+  min-height: 100vh;
+  padding: 24rpx 32rpx 40rpx;
+  box-sizing: border-box;
+  background: #F2EDE4;
+  font-family: 'PingFang SC', 'Noto Sans SC', sans-serif;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16rpx 4rpx 28rpx;
+}
+
+.brand-en {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', 'Songti SC', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 104rpx;
+  line-height: 0.88;
+  color: #0A0A0A;
+  letter-spacing: -4rpx;
+}
+
+.brand-line {
+  line-height: 0.88;
+}
+
+.brand-dot {
+  color: #FF5B1F;
+}
+
+.brand-zh {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 10rpx;
+  color: #8A847B;
+}
+
+.hero-right {
+  text-align: right;
+  font-family: 'Courier New', 'Menlo', monospace;
+}
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  background: #0A0A0A;
+  color: #D4FF3D;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+}
+
+.live-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #D4FF3D;
+  box-shadow: 0 0 10rpx #D4FF3D;
+  animation: livePulse 1.2s infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.7); }
+}
+
+.time {
+  margin-top: 10rpx;
+  font-size: 20rpx;
+  color: #8A847B;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 公共 zone ---------- */
+.zone {
+  border-radius: 44rpx;
+  padding: 32rpx 32rpx 30rpx;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.zone-header {
+  margin-bottom: 20rpx;
+  position: relative;
+  z-index: 3;
+}
+
+.zone-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+}
+
+.tag-num {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-size: 26rpx;
+  font-weight: 900;
+  margin-right: 2rpx;
+}
+
+.tag-slash {
+  opacity: 0.8;
+}
+
+.tag-post {
+  background: #0A0A0A;
+  color: #FF5B1F;
+}
+
+.tag-earn {
+  background: #D4FF3D;
+  color: #0A0A0A;
+}
+
+.zone-title {
+  font-size: 44rpx;
+  font-weight: 900;
+  letter-spacing: 1rpx;
+  line-height: 1.15;
+  position: relative;
+  z-index: 3;
+}
+
+.zone-title.dark { color: #0A0A0A; }
+.zone-title.light { color: #F2EDE4; }
+
+.title-em {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-weight: 900;
+}
+
+.title-italic {
+  font-style: italic;
+}
+
+.acid-c { color: #D4FF3D; }
+
+.zone-sub {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 20rpx;
+  letter-spacing: 0.5rpx;
+  margin: 8rpx 0 24rpx;
+  position: relative;
+  z-index: 3;
+}
+
+.dark-sub { color: rgba(10, 10, 10, 0.7); }
+.light-sub { color: rgba(242, 237, 228, 0.5); }
+
+/* ---------- 发单区（橙色） ---------- */
+.zone-post {
+  background: linear-gradient(135deg, #FF5B1F 0%, #FF8C42 60%, #FFB866 100%);
+  box-shadow:
+    0 16rpx 48rpx rgba(255, 91, 31, 0.32),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.3);
+}
+
+.zone-post .grid-lines {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.05) 1rpx, transparent 1rpx),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1rpx, transparent 1rpx);
+  background-size: 40rpx 40rpx;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.zone-post .glow {
+  position: absolute;
+  top: -160rpx; right: -160rpx;
+  width: 480rpx; height: 480rpx;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---------- 按钮组 ---------- */
+.btn-group {
+  display: flex;
+  gap: 14rpx;
+  position: relative;
+  z-index: 3;
+}
+
+/* 主按钮（大） */
+.btn-main {
+  flex: 1.6;
+  background: #0A0A0A;
+  color: #F2EDE4;
+  border-radius: 32rpx;
+  padding: 28rpx 28rpx 30rpx;
+  position: relative;
+  overflow: hidden;
+  min-height: 220rpx;
+}
+
+.btn-label {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  margin-bottom: 18rpx;
+}
+
+.btn-label.acid { color: #D4FF3D; }
+.btn-label.dark-dim { color: rgba(10, 10, 10, 0.6); }
+
+.btn-title-lg {
+  font-size: 44rpx;
+  font-weight: 900;
+  letter-spacing: 1rpx;
+  line-height: 1;
+}
+
+.btn-title-lg.dark { color: #0A0A0A; }
+
+.btn-desc-light {
+  font-size: 20rpx;
+  color: rgba(242, 237, 228, 0.6);
+  margin-top: 10rpx;
+  font-family: 'Courier New', 'Menlo', monospace;
+}
+
+.btn-desc-dark {
+  font-size: 20rpx;
+  color: rgba(10, 10, 10, 0.6);
+  margin-top: 10rpx;
+  font-family: 'Courier New', 'Menlo', monospace;
+}
+
+.btn-arrow {
+  position: absolute;
+  bottom: 24rpx; right: 28rpx;
+  width: 68rpx; height: 68rpx;
+  border-radius: 50%;
+  background: #D4FF3D;
+  color: #0A0A0A;
+  font-size: 36rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 次按钮 */
+.btn-sec {
+  flex: 1;
+  border-radius: 32rpx;
+  padding: 28rpx 26rpx;
+  position: relative;
+  min-height: 220rpx;
+  box-sizing: border-box;
+}
+
+.btn-sec-light {
+  background: rgba(255, 255, 255, 0.25);
+  border: 2rpx solid rgba(10, 10, 10, 0.15);
+}
+
+.btn-sec-dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2rpx solid rgba(242, 237, 228, 0.15);
+}
+
+.btn-corner {
+  position: absolute;
+  top: 22rpx; right: 24rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.btn-corner.dark { color: #0A0A0A; }
+
+.btn-title-md {
   font-size: 32rpx;
-  font-weight: bold;
-  color: #666;
-  margin-bottom: 16rpx;
+  font-weight: 900;
+  letter-spacing: 1rpx;
+}
+
+.btn-title-md.dark { color: #0A0A0A; }
+.btn-title-md.light { color: #F2EDE4; }
+
+.btn-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-top: 14rpx;
+}
+
+.btn-num {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-size: 56rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.btn-num.dark { color: #0A0A0A; }
+
+.btn-unit {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+}
+
+.btn-unit.dark-dim { color: rgba(10, 10, 10, 0.6); }
+
+/* ---------- 接单区（深色） ---------- */
+.zone-earn {
+  background: #0A0A0A;
+  color: #F2EDE4;
+  box-shadow:
+    0 16rpx 48rpx rgba(10, 10, 10, 0.4),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.05);
+}
+
+.radar-outer {
+  position: absolute;
+  top: -120rpx; right: -120rpx;
+  width: 400rpx; height: 400rpx;
+  border-radius: 50%;
+  border: 2rpx dashed rgba(212, 255, 61, 0.2);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.radar-inner {
+  position: absolute;
+  top: -40rpx; right: -40rpx;
+  width: 240rpx; height: 240rpx;
+  border-radius: 50%;
+  border: 2rpx dashed rgba(212, 255, 61, 0.3);
+  pointer-events: none;
+  z-index: 1;
+  animation: radarRotate 8s linear infinite;
+}
+
+@keyframes radarRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 大厅按钮（acid） */
+.btn-hall {
+  flex: 1.6;
+  background: #D4FF3D;
+  color: #0A0A0A;
+  border-radius: 32rpx;
+  padding: 28rpx 28rpx 30rpx;
+  position: relative;
+  overflow: hidden;
+  min-height: 220rpx;
+}
+
+.shine {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.live-count {
+  position: absolute;
+  bottom: 22rpx; right: 28rpx;
+  text-align: right;
+}
+
+.lc-n {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-size: 72rpx;
+  font-weight: 900;
+  line-height: 0.88;
+  color: #0A0A0A;
+}
+
+.lc-l {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 16rpx;
+  letter-spacing: 2rpx;
+  font-weight: 700;
+  margin-top: 4rpx;
+  color: #0A0A0A;
+}
+
+/* 按钮点击态 */
+.btn-tap {
+  transform: scale(0.97);
+  opacity: 0.92;
+}
+
+/* ---------- 底部数据条 ---------- */
+.stats-bar {
+  background: #fff;
+  border-radius: 28rpx;
+  padding: 20rpx 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8rpx;
+  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.04);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  flex: 1;
+}
+
+.stat-icon {
+  width: 52rpx; height: 52rpx;
+  border-radius: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: 900;
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+}
+
+.stat-icon.orange {
+  background: rgba(255, 91, 31, 0.15);
+  color: #FF5B1F;
+}
+
+.stat-icon.ink {
+  background: rgba(10, 10, 10, 0.08);
+  color: #0A0A0A;
+  font-family: inherit;
+  font-style: normal;
+}
+
+.stat-icon.acid {
+  background: rgba(212, 255, 61, 0.25);
+  color: #5c7a00;
+  font-family: inherit;
+  font-style: normal;
+}
+
+.stat-lbl {
+  font-size: 16rpx;
+  color: #8A847B;
+  letter-spacing: 1rpx;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-weight: 600;
+}
+
+.stat-val {
+  font-size: 26rpx;
+  font-weight: 900;
+  color: #0A0A0A;
+  line-height: 1.1;
+}
+
+.stat-div {
+  width: 2rpx; height: 44rpx;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- 底部测试信息 ---------- */
+.footer {
+  text-align: center;
+  margin-top: 36rpx;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  color: #8A847B;
+  letter-spacing: 2rpx;
+}
+
+.footer .em {
+  color: #0A0A0A;
+  font-weight: 700;
+  font-style: normal;
 }

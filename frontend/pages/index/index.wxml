@@ -1,16 +1,131 @@
-<view class="container">
-  <view class="page-title">校园跑腿系统</view>
-  <view class="placeholder">毕业设计 · 微信小程序</view>
-
-  <view class="section">
-    <view class="section-title">用户侧</view>
-    <button class="btn" bindtap="goCreateOrder">发布订单</button>
-    <button class="btn" bindtap="goOrderList">我的订单</button>
+<view class="page">
+  <!-- 顶部 Hero -->
+  <view class="hero">
+    <view class="hero-left">
+      <view class="brand-en">
+        <view class="brand-line">Campus</view>
+        <view class="brand-line">Run<text class="brand-dot">.</text></view>
+      </view>
+      <view class="brand-zh">校 · 跑 · 腿</view>
+    </view>
+    <view class="hero-right">
+      <view class="live-badge">
+        <view class="live-dot"></view>
+        <text>LIVE</text>
+      </view>
+      <view class="time">{{timeLabel}}</view>
+    </view>
   </view>
 
-  <view class="section">
-    <view class="section-title">跑腿员侧</view>
-    <button class="btn" bindtap="goHall">跑腿大厅</button>
-    <button class="btn" bindtap="goRunnerTasks">我的接单</button>
+  <!-- 发单区（橙） -->
+  <view class="zone zone-post">
+    <view class="grid-lines"></view>
+    <view class="glow"></view>
+    <view class="zone-header">
+      <view class="zone-tag tag-post">
+        <text class="tag-num">01</text>
+        <text class="tag-slash"> / </text>
+        <text>POST</text>
+      </view>
+    </view>
+    <view class="zone-title dark">
+      我要发单 <text class="title-em">·</text> <text class="title-em title-italic">I</text> need help
+    </view>
+    <view class="zone-sub dark-sub">&gt; 发布需求，让别人帮你跑</view>
+
+    <view class="btn-group">
+      <view class="btn-main" hover-class="btn-tap" hover-stay-time="100" bindtap="goCreate">
+        <view class="btn-label acid">→ PUBLISH ORDER</view>
+        <view class="btn-title-lg">
+          <view>发布</view>
+          <view>订单</view>
+        </view>
+        <view class="btn-desc-light">平均 5min 响应</view>
+        <view class="btn-arrow">↗</view>
+      </view>
+      <view class="btn-sec btn-sec-light" hover-class="btn-tap" hover-stay-time="100" bindtap="goOrderList">
+        <view class="btn-corner dark">↗</view>
+        <view class="btn-label dark-dim">MY ORDERS</view>
+        <view class="btn-title-md dark">我的订单</view>
+        <view class="btn-meta">
+          <text class="btn-num dark">{{activeOrders}}</text>
+          <text class="btn-unit dark-dim">ACTIVE</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 接单区（黑） -->
+  <view class="zone zone-earn">
+    <view class="radar-outer"></view>
+    <view class="radar-inner"></view>
+    <view class="zone-header">
+      <view class="zone-tag tag-earn">
+        <text class="tag-num">02</text>
+        <text class="tag-slash"> / </text>
+        <text>EARN</text>
+      </view>
+    </view>
+    <view class="zone-title light">
+      我要接单 <text class="title-em acid-c">·</text> <text class="title-em title-italic acid-c">I</text> deliver
+    </view>
+    <view class="zone-sub light-sub">&gt; 抢单挣小费，做校园 hero</view>
+
+    <view class="btn-group">
+      <view class="btn-hall" hover-class="btn-tap" hover-stay-time="100" bindtap="goHall">
+        <view class="shine"></view>
+        <view class="btn-label dark-dim">→ LIVE HALL</view>
+        <view class="btn-title-lg">
+          <view>跑腿</view>
+          <view>大厅</view>
+        </view>
+        <view class="btn-desc-dark">附近 · 实时抢单</view>
+        <view class="live-count">
+          <view class="lc-n">{{hallCount}}</view>
+          <view class="lc-l">NEW</view>
+        </view>
+      </view>
+      <view class="btn-sec btn-sec-dark" hover-class="btn-tap" hover-stay-time="100" bindtap="goTasks">
+        <view class="btn-corner acid-c">↗</view>
+        <view class="btn-label acid">MY TASKS</view>
+        <view class="btn-title-md light">我的接单</view>
+        <view class="btn-meta">
+          <text class="btn-num acid-c">{{doingTasks}}</text>
+          <text class="btn-unit light-sub">DOING</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据条 -->
+  <view class="stats-bar">
+    <view class="stat">
+      <view class="stat-icon orange">¥</view>
+      <view class="stat-info">
+        <view class="stat-lbl">TODAY</view>
+        <view class="stat-val">¥0.00</view>
+      </view>
+    </view>
+    <view class="stat-div"></view>
+    <view class="stat">
+      <view class="stat-icon ink">★</view>
+      <view class="stat-info">
+        <view class="stat-lbl">RATING</view>
+        <view class="stat-val">5.0</view>
+      </view>
+    </view>
+    <view class="stat-div"></view>
+    <view class="stat">
+      <view class="stat-icon acid">▲</view>
+      <view class="stat-info">
+        <view class="stat-lbl">LEVEL</view>
+        <view class="stat-val">LV.1</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部测试信息 -->
+  <view class="footer">
+    USER·<text class="em">{{userId}}</text> ∙ RUNNER·<text class="em">{{runnerId}}</text> ∙ <text class="em">TEST MODE</text>
   </view>
 </view>
