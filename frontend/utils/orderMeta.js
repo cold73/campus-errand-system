@@ -3,13 +3,15 @@
  * 供订单列表 / 详情 / 跑腿大厅 / 我的接单 等页面统一复用
  */
 
-// 订单状态 ↔ 显示样式（与后端 Order.status 对齐）
+// 订单状态 ↔ editorial 调色（paper / ink / orange / acid / purple / muted）
+// 与后端 Order.status 对齐
+// label 是中文（兼容旧页面），en 是 mono uppercase（供新 magazine 卡片 pill 使用）
 const STATUS_MAP = {
-  0: { label: '待接单', color: '#ff9f00', bg: '#fff7e6' },
-  1: { label: '已接单', color: '#1989fa', bg: '#e8f3ff' },
-  2: { label: '进行中', color: '#1989fa', bg: '#e8f3ff' },
-  3: { label: '已完成', color: '#07c160', bg: '#e8f8ee' },
-  4: { label: '已取消', color: '#999999', bg: '#f2f2f2' },
+  0: { label: '待接单', en: 'PENDING',     color: '#FF5B1F', bg: 'rgba(255, 91, 31, 0.12)' },
+  1: { label: '已接单', en: 'TAKEN',       color: '#0A0A0A', bg: 'rgba(10, 10, 10, 0.08)' },
+  2: { label: '进行中', en: 'IN-PROGRESS', color: '#7B5FE8', bg: 'rgba(123, 95, 232, 0.12)' },
+  3: { label: '已完成', en: 'DONE',        color: '#5c7a00', bg: 'rgba(212, 255, 61, 0.35)' },
+  4: { label: '已取消', en: 'CANCELLED',   color: '#8A847B', bg: 'rgba(138, 132, 123, 0.15)' },
 };
 
 // 订单类型 ↔ 中文标签（与后端 Order.orderType 对齐）
