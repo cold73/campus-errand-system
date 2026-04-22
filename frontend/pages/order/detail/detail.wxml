@@ -17,11 +17,6 @@
       </view>
       <view class="hero-title">{{detail.order.title}}</view>
       <view class="hero-no">NO·{{detail.order.orderNo}}</view>
-      <view class="hero-actions" wx:if="{{detail.order.canCancel}}">
-        <button class="ed-btn ghost detail-cancel-btn" bindtap="onCancelOrder" disabled="{{cancelling}}">
-          取消订单
-        </button>
-      </view>
     </view>
 
     <!-- 01 / ORDER -->
