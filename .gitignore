@@ -16,6 +16,7 @@ node_modules/
 
 # WeChat Mini Program
 miniprogram_npm/
+project.private.config.json
 
 # Environment
 .env
