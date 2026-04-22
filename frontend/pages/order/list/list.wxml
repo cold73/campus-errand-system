@@ -44,7 +44,17 @@
           <text class="price-big">{{item.displayPrice}}</text>
           <text class="tip-chip" wx:if="{{item.hasTip}}">+¥{{item.displayTip}} TIP</text>
         </view>
-        <text class="status-cn">{{item.statusLabel}}</text>
+        <view class="footer-actions">
+          <button
+            wx:if="{{item.canCancel}}"
+            class="ed-btn ghost cancel-btn"
+            catchtap="onCancelOrder"
+            data-id="{{item.id}}"
+            disabled="{{cancelling}}">
+            取消订单
+          </button>
+          <text class="status-cn">{{item.statusLabel}}</text>
+        </view>
       </view>
     </view>
   </block>

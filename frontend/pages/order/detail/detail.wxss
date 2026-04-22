@@ -36,6 +36,19 @@
   letter-spacing: 2rpx;
 }
 
+.hero-actions {
+  margin-top: 24rpx;
+}
+
+.detail-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220rpx;
+  color: #FF5B1F;
+  border: 2rpx solid rgba(255, 91, 31, 0.35);
+}
+
 /* 分区头 */
 .sec-head {
   display: flex;

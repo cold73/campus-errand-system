@@ -7,3 +7,19 @@
   letter-spacing: 2rpx;
   align-self: center;
 }
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.cancel-btn {
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0 22rpx;
+  font-size: 22rpx;
+  letter-spacing: 1rpx;
+  color: #FF5B1F;
+  border-color: rgba(255, 91, 31, 0.35);
+}

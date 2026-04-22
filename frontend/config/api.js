@@ -11,6 +11,7 @@ const API = {
   ORDER_CREATE: '/api/order/create',      // POST 创建订单
   ORDER_LIST: '/api/order/list',          // GET  我的订单列表 ?userId=
   ORDER_DETAIL: '/api/order/detail',      // GET  订单详情 /:id
+  ORDER_CANCEL: '/api/order/cancel',      // POST 取消订单
 
   // 订单（跑腿员侧）
   ORDER_HALL: '/api/order/hall',          // GET  跑腿大厅（可接订单）
