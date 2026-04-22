@@ -1,4 +1,33 @@
 <view class="container">
-  <view class="page-title">我的订单</view>
-  <view class="placeholder">此处将展示当前用户的订单列表（TODO）</view>
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!loading && orders.length === 0}}" bindtap="goCreate">
+    <view class="empty-icon">📦</view>
+    <view class="empty-text">暂无订单</view>
+    <view class="empty-action">去发一单吧 →</view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list" wx:if="{{orders.length > 0}}">
+    <view class="order-card"
+          wx:for="{{orders}}"
+          wx:key="id"
+          data-id="{{item.id}}"
+          bindtap="goDetail">
+      <view class="card-header">
+        <view class="title">{{item.title}}</view>
+        <view class="status-tag" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
+          {{item.statusLabel}}
+        </view>
+      </view>
+
+      <view class="content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+
+      <view class="price-row">
+        <text class="price">¥{{item.displayPrice}}</text>
+        <text class="tip" wx:if="{{item.hasTip}}">跑腿费 ¥{{item.displayTip}}</text>
+      </view>
+
+      <view class="create-time">{{item.displayTime}}</view>
+    </view>
+  </view>
 </view>
