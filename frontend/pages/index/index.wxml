@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="page-title">校园跑腿系统</view>
+  <view class="placeholder">毕业设计 · 微信小程序</view>
+
+  <view class="section">
+    <view class="section-title">用户侧</view>
+    <button class="btn" bindtap="goCreateOrder">发布订单</button>
+    <button class="btn" bindtap="goOrderList">我的订单</button>
+  </view>
+
+  <view class="section">
+    <view class="section-title">跑腿员侧</view>
+    <button class="btn" bindtap="goHall">跑腿大厅</button>
+    <button class="btn" bindtap="goRunnerTasks">我的接单</button>
+  </view>
+</view>

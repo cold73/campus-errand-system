@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="page-title">订单详情</view>
+  <view class="placeholder">此处将展示订单主信息 + 收货信息（TODO）</view>
+</view>

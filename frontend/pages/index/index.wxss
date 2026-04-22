@@ -1,0 +1,10 @@
+.section {
+  margin-top: 48rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 16rpx;
+}

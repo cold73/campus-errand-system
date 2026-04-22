@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="page-title">跑腿大厅</view>
+  <view class="placeholder">此处将展示所有可接订单（TODO）</view>
+</view>

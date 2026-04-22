@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="page-title">发布订单</view>
+  <view class="placeholder">此处将承载订单发布表单（TODO）</view>
+</view>
