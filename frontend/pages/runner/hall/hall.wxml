@@ -1,4 +1,55 @@
 <view class="container">
-  <view class="page-title">跑腿大厅</view>
-  <view class="placeholder">此处将展示所有可接订单（TODO）</view>
+  <view class="state-tip" wx:if="{{loading && orders.length === 0}}">加载中...</view>
+
+  <view class="state-tip" wx:elif="{{orders.length === 0}}">
+    <view class="empty-icon">📭</view>
+    <view>暂无待接订单</view>
+  </view>
+
+  <block wx:else>
+    <view class="summary">当前 {{orders.length}} 个待接订单</view>
+
+    <view
+      class="card"
+      wx:for="{{orders}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="header-row">
+        <view class="title">{{item.title}}</view>
+        <view
+          class="status-tag"
+          style="color: {{item.statusColor}}; background: {{item.statusBg}};"
+        >
+          {{item.statusLabel}}
+        </view>
+      </view>
+
+      <view class="meta-row">
+        <text class="type-tag">{{item.typeLabel}}</text>
+        <text class="time">{{item.displayTime}}</text>
+      </view>
+
+      <view class="content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+
+      <view class="footer-row">
+        <view class="price-wrap">
+          <text class="price">¥{{item.displayPrice}}</text>
+          <text class="tip" wx:if="{{item.hasTip}}">小费 ¥{{item.displayTip}}</text>
+        </view>
+        <button
+          class="take-btn"
+          size="mini"
+          type="primary"
+          catchtap="onTake"
+          data-id="{{item.id}}"
+          data-title="{{item.title}}"
+          disabled="{{taking}}"
+        >
+          接单
+        </button>
+      </view>
+    </view>
+  </block>
 </view>

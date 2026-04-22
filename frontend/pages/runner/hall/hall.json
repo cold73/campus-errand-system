@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "跑腿大厅"
+  "navigationBarTitleText": "跑腿大厅",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }
