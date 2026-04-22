@@ -1,58 +1,170 @@
+/* 发布订单页 - editorial 风格
+   公共 hero / mag-card / zone-tag 来自 app.wxss 和 detail.wxss，这里只写表单字段和提交按钮 */
+
 .container {
-  padding: 32rpx;
-  padding-bottom: 120rpx;
+  padding: 24rpx 32rpx 60rpx;
 }
 
-.form-item {
-  margin-bottom: 32rpx;
+/* ---- 分区头复用 detail 页的定义 ---- */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  margin-bottom: 28rpx;
 }
 
-.label {
-  font-size: 28rpx;
-  color: #333;
-  font-weight: 500;
+.zone-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+  background: #0A0A0A;
+  color: #D4FF3D;
+}
+
+.tag-num {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 24rpx;
+  margin-right: 4rpx;
+}
+
+.zone-cn {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #8A847B;
+  letter-spacing: 2rpx;
+}
+
+/* ---- 字段 ---- */
+.field {
+  margin-bottom: 28rpx;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field-lbl {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  color: #8A847B;
   margin-bottom: 12rpx;
 }
 
-.required {
-  color: #e64340;
+.field-lbl .req {
+  color: #FF5B1F;
   margin-left: 4rpx;
+  font-weight: 900;
 }
 
-.input,
-.textarea,
-.picker {
+.field-input {
   width: 100%;
-  background-color: #fff;
-  border: 1rpx solid #e5e5e5;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  color: #333;
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0 0 12rpx 0;
+  font-size: 30rpx;
+  color: #0A0A0A;
+  border: none;
+  border-bottom: 2rpx solid rgba(10, 10, 10, 0.12);
+  background: transparent;
   box-sizing: border-box;
 }
 
-.input,
-.picker {
-  height: 80rpx;
-  line-height: 80rpx;
-  padding: 0 24rpx;
+.field-textarea {
+  width: 100%;
+  padding: 16rpx 0 12rpx 0;
+  min-height: 100rpx;
+  font-size: 28rpx;
+  color: #0A0A0A;
+  border: none;
+  border-bottom: 2rpx solid rgba(10, 10, 10, 0.12);
+  background: transparent;
+  box-sizing: border-box;
+  line-height: 1.5;
 }
 
-.textarea {
-  padding: 20rpx 24rpx;
-  min-height: 160rpx;
-}
-
-.datetime-row {
+.field-picker {
   display: flex;
-  gap: 16rpx;
+  justify-content: space-between;
+  align-items: center;
+  height: 76rpx;
+  padding: 0 0 12rpx 0;
+  font-size: 30rpx;
+  color: #0A0A0A;
+  border-bottom: 2rpx solid rgba(10, 10, 10, 0.12);
 }
 
-.datetime-row .picker {
+.field-picker .chev {
+  color: #8A847B;
+  font-size: 24rpx;
+  font-family: 'Courier New', 'Menlo', monospace;
+}
+
+/* 一行两个字段 */
+.field-row {
+  display: flex;
+  gap: 28rpx;
+}
+
+.field-row .half {
   flex: 1;
 }
 
+/* 日期 + 时间一行 */
+.datetime-row {
+  display: flex;
+  gap: 20rpx;
+}
+
+.datetime-row .picker-wrap {
+  flex: 1;
+}
+
+/* 提交按钮 - 大号 editorial 黑底按钮 */
 .submit-btn {
   margin-top: 48rpx;
-  font-size: 32rpx;
+  background: #0A0A0A;
+  color: #F2EDE4;
+  border-radius: 32rpx;
+  padding: 32rpx 28rpx;
+  border: none;
+  line-height: 1;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.submit-btn[disabled] {
+  opacity: 0.5;
+  color: #F2EDE4;
+  background: #0A0A0A;
+}
+
+.submit-label {
+  display: block;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  color: #D4FF3D;
+  margin-bottom: 10rpx;
+}
+
+.submit-cn {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 900;
+  letter-spacing: 2rpx;
 }

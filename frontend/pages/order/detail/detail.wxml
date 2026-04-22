@@ -1,81 +1,86 @@
 <view class="container">
-  <view class="state-tip" wx:if="{{loading}}">加载中...</view>
+  <view class="mag-loading" wx:if="{{loading}}">LOADING ...</view>
 
-  <view class="state-tip not-found" wx:elif="{{notFound}}">
-    <view class="empty-icon">📭</view>
-    <view>订单不存在或已被删除</view>
+  <view class="mag-empty not-found" wx:elif="{{notFound}}">
+    <view class="em">Not found</view>
+    <view class="zh">订单不存在或已被删除</view>
   </view>
 
   <block wx:elif="{{detail}}">
-    <!-- 顶部：标题 + 状态 + 订单号 -->
-    <view class="card">
-      <view class="header-row">
-        <view class="title">{{detail.order.title}}</view>
-        <view class="status-tag"
-              style="color: {{detail.order.statusColor}}; background: {{detail.order.statusBg}};">
-          {{detail.order.statusLabel}}
+    <!-- Hero：标题 + 状态 -->
+    <view class="detail-hero">
+      <view class="hero-top">
+        <view class="mini-label">ORDER DETAIL</view>
+        <view class="status-pill" style="color: {{detail.order.statusColor}}; background: {{detail.order.statusBg}};">
+          {{detail.order.statusEn}}
         </view>
       </view>
-      <view class="order-no">订单号：{{detail.order.orderNo}}</view>
+      <view class="hero-title">{{detail.order.title}}</view>
+      <view class="hero-no">NO·{{detail.order.orderNo}}</view>
     </view>
 
-    <!-- 订单信息 -->
-    <view class="card">
-      <view class="section-title">订单信息</view>
-
-      <view class="info-row">
-        <text class="info-label">类型</text>
-        <text class="info-value">{{detail.order.typeLabel}}</text>
+    <!-- 01 / ORDER -->
+    <view class="mag-card">
+      <view class="sec-head">
+        <view class="zone-tag"><text class="tag-num">01</text> / ORDER</view>
+        <view class="zone-cn">订单信息</view>
       </view>
 
       <view class="info-row">
-        <text class="info-label">金额</text>
-        <text class="info-value price">¥{{detail.order.displayPrice}}</text>
+        <text class="info-lbl">TYPE</text>
+        <text class="info-val">{{detail.order.typeLabel}}</text>
       </view>
 
-      <view class="info-row" wx:if="{{detail.order.hasTip}}">
-        <text class="info-label">小费</text>
-        <text class="info-value">¥{{detail.order.displayTip}}</text>
+      <view class="info-row price-row">
+        <text class="info-lbl">PRICE</text>
+        <view class="price-block">
+          <text class="price-yen">¥</text>
+          <text class="price-big">{{detail.order.displayPrice}}</text>
+          <text class="tip-chip" wx:if="{{detail.order.hasTip}}">+¥{{detail.order.displayTip}} TIP</text>
+        </view>
       </view>
 
       <view class="info-row" wx:if="{{detail.order.hasContent}}">
-        <text class="info-label">描述</text>
-        <text class="info-value">{{detail.order.content}}</text>
+        <text class="info-lbl">NOTE</text>
+        <text class="info-val">{{detail.order.content}}</text>
       </view>
 
       <view class="info-row" wx:if="{{detail.order.displayExpectFinishTime}}">
-        <text class="info-label">期望完成</text>
-        <text class="info-value">{{detail.order.displayExpectFinishTime}}</text>
+        <text class="info-lbl">DEADLINE</text>
+        <text class="info-val mono">{{detail.order.displayExpectFinishTime}}</text>
       </view>
 
       <view class="info-row">
-        <text class="info-label">创建时间</text>
-        <text class="info-value">{{detail.order.displayCreateTime}}</text>
+        <text class="info-lbl">POSTED</text>
+        <text class="info-val mono">{{detail.order.displayCreateTime}}</text>
       </view>
     </view>
 
-    <!-- 收货信息 -->
-    <view class="card">
-      <view class="section-title">收货信息</view>
-
-      <view class="info-row">
-        <text class="info-label">收货人</text>
-        <text class="info-value">{{detail.receive.receiverName}}</text>
+    <!-- 02 / RECEIVE -->
+    <view class="mag-card">
+      <view class="sec-head">
+        <view class="zone-tag"><text class="tag-num">02</text> / RECEIVE</view>
+        <view class="zone-cn">收货信息</view>
       </view>
 
       <view class="info-row">
-        <text class="info-label">电话</text>
-        <text class="info-value">{{detail.receive.receiverPhone}}</text>
+        <text class="info-lbl">NAME</text>
+        <text class="info-val">{{detail.receive.receiverName}}</text>
       </view>
 
       <view class="info-row">
-        <text class="info-label">收货地址</text>
-        <text class="info-value">{{detail.receive.receiverAddress}}</text>
+        <text class="info-lbl">PHONE</text>
+        <text class="info-val mono">{{detail.receive.receiverPhone}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-lbl">TO</text>
+        <text class="info-val">{{detail.receive.receiverAddress}}</text>
       </view>
 
       <view class="info-row" wx:if="{{detail.receive.hasPickupAddress}}">
-        <text class="info-label">取货地址</text>
-        <text class="info-value">{{detail.receive.pickupAddress}}</text>
+        <text class="info-lbl">FROM</text>
+        <text class="info-val">{{detail.receive.pickupAddress}}</text>
       </view>
     </view>
   </block>

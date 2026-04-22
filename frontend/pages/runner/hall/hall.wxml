@@ -1,53 +1,56 @@
 <view class="container">
-  <view class="state-tip" wx:if="{{loading && orders.length === 0}}">加载中...</view>
-
-  <view class="state-tip" wx:elif="{{orders.length === 0}}">
-    <view class="empty-icon">📭</view>
-    <view>暂无待接订单</view>
+  <!-- Hero -->
+  <view class="mag-hero">
+    <view class="en">Live<text class="dot">.</text>Hall</view>
+    <view class="zh">跑 腿 大 厅</view>
+    <view class="meta"><text class="count">{{orders.length}}</text>OPEN · 待接订单</view>
   </view>
 
+  <!-- 加载中 -->
+  <view class="mag-loading" wx:if="{{loading && orders.length === 0}}">LOADING ...</view>
+
+  <!-- 空态 -->
+  <view class="mag-empty" wx:elif="{{orders.length === 0}}">
+    <view class="em">All clear</view>
+    <view class="zh">暂无待接订单</view>
+    <view class="sub">PULL DOWN TO REFRESH</view>
+  </view>
+
+  <!-- 大厅列表 -->
   <block wx:else>
-    <view class="summary">当前 {{orders.length}} 个待接订单</view>
-
-    <view
-      class="card"
-      wx:for="{{orders}}"
-      wx:key="id"
-      bindtap="goDetail"
-      data-id="{{item.id}}"
-    >
-      <view class="header-row">
-        <view class="title">{{item.title}}</view>
-        <view
-          class="status-tag"
-          style="color: {{item.statusColor}}; background: {{item.statusBg}};"
-        >
-          {{item.statusLabel}}
+    <view class="mag-card"
+          wx:for="{{orders}}"
+          wx:key="id"
+          bindtap="goDetail"
+          data-id="{{item.id}}">
+      <view class="top-row">
+        <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
+          {{item.statusEn}}
         </view>
+        <view class="type-tag-mono">{{item.typeLabel}}</view>
       </view>
 
-      <view class="meta-row">
-        <text class="type-tag">{{item.typeLabel}}</text>
-        <text class="time">{{item.displayTime}}</text>
+      <view class="card-title">{{item.title}}</view>
+
+      <view class="card-meta">
+        <text>POSTED · {{item.displayTime}}</text>
       </view>
 
-      <view class="content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+      <view class="card-content" wx:if="{{item.hasContent}}">{{item.content}}</view>
 
-      <view class="footer-row">
-        <view class="price-wrap">
-          <text class="price">¥{{item.displayPrice}}</text>
-          <text class="tip" wx:if="{{item.hasTip}}">小费 ¥{{item.displayTip}}</text>
+      <view class="card-footer">
+        <view class="price-block">
+          <text class="price-yen">¥</text>
+          <text class="price-big">{{item.displayPrice}}</text>
+          <text class="tip-chip" wx:if="{{item.hasTip}}">+¥{{item.displayTip}} TIP</text>
         </view>
         <button
-          class="take-btn"
-          size="mini"
-          type="primary"
+          class="ed-btn acid"
           catchtap="onTake"
           data-id="{{item.id}}"
           data-title="{{item.title}}"
-          disabled="{{taking}}"
-        >
-          接单
+          disabled="{{taking}}">
+          TAKE →
         </button>
       </view>
     </view>

@@ -1,33 +1,51 @@
 <view class="container">
-  <!-- 空状态 -->
-  <view class="empty" wx:if="{{!loading && orders.length === 0}}" bindtap="goCreate">
-    <view class="empty-icon">📦</view>
-    <view class="empty-text">暂无订单</view>
-    <view class="empty-action">去发一单吧 →</view>
+  <!-- Hero -->
+  <view class="mag-hero">
+    <view class="en">My<text class="dot">.</text>Orders</view>
+    <view class="zh">我 的 订 单</view>
+    <view class="meta"><text class="count">{{orders.length}}</text>ORDERS · 我发布的</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="mag-loading" wx:if="{{loading && orders.length === 0}}">LOADING ...</view>
+
+  <!-- 空态 -->
+  <view class="mag-empty" wx:elif="{{orders.length === 0}}" bindtap="goCreate">
+    <view class="em">Empty</view>
+    <view class="zh">暂无订单</view>
+    <view class="sub">TAP TO PUBLISH →</view>
   </view>
 
   <!-- 订单列表 -->
-  <view class="order-list" wx:if="{{orders.length > 0}}">
-    <view class="order-card"
+  <block wx:else>
+    <view class="mag-card"
           wx:for="{{orders}}"
           wx:key="id"
           data-id="{{item.id}}"
           bindtap="goDetail">
-      <view class="card-header">
-        <view class="title">{{item.title}}</view>
-        <view class="status-tag" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
-          {{item.statusLabel}}
+      <view class="top-row">
+        <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
+          {{item.statusEn}}
         </view>
+        <view class="order-no">NO·{{item.orderNo}}</view>
       </view>
 
-      <view class="content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+      <view class="card-title">{{item.title}}</view>
 
-      <view class="price-row">
-        <text class="price">¥{{item.displayPrice}}</text>
-        <text class="tip" wx:if="{{item.hasTip}}">跑腿费 ¥{{item.displayTip}}</text>
+      <view class="card-meta">
+        <text>{{item.displayTime}}</text>
       </view>
 
-      <view class="create-time">{{item.displayTime}}</view>
+      <view class="card-content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+
+      <view class="card-footer">
+        <view class="price-block">
+          <text class="price-yen">¥</text>
+          <text class="price-big">{{item.displayPrice}}</text>
+          <text class="tip-chip" wx:if="{{item.hasTip}}">+¥{{item.displayTip}} TIP</text>
+        </view>
+        <text class="status-cn">{{item.statusLabel}}</text>
+      </view>
     </view>
-  </view>
+  </block>
 </view>

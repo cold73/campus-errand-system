@@ -44,11 +44,12 @@ Page({
     const tipNum = Number(task.tip || 0);
     // 1=已接单 → 待取货；2=进行中 → 可完成；其它状态无操作
     let action = null;
-    if (task.status === 1) action = { label: '确认取货', type: 'pickup' };
-    else if (task.status === 2) action = { label: '完成订单', type: 'finish' };
+    if (task.status === 1) action = { label: 'PICKUP →', type: 'pickup' };
+    else if (task.status === 2) action = { label: 'FINISH →', type: 'finish' };
     return {
       ...task,
       statusLabel: status.label,
+      statusEn: status.en,
       statusColor: status.color,
       statusBg: status.bg,
       typeLabel: getOrderTypeLabel(task.orderType),
@@ -76,7 +77,7 @@ Page({
         ? `确定已送达「${title}」并完成订单吗？`
         : `确定已取到「${title}」的货品吗？`,
       confirmText: isFinish ? '完成' : '已取货',
-      confirmColor: '#07c160',
+      confirmColor: '#0A0A0A',
       success: (res) => {
         if (res.confirm) this.doAction(id, type);
       },

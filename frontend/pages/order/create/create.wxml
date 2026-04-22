@@ -1,107 +1,142 @@
 <view class="container">
-  <view class="page-title">发布订单</view>
-
-  <view class="form-item">
-    <view class="label">订单标题<text class="required">*</text></view>
-    <input class="input"
-           placeholder="如：代拿菜鸟驿站快递"
-           value="{{form.title}}"
-           data-field="title"
-           bindinput="onInput" />
+  <!-- Hero -->
+  <view class="mag-hero">
+    <view class="en">Publish<text class="dot">.</text></view>
+    <view class="zh">发 布 订 单</view>
+    <view class="meta">FILL IN ALL FIELDS · 标 * 为必填</view>
   </view>
 
-  <view class="form-item">
-    <view class="label">订单描述</view>
-    <textarea class="textarea"
-              placeholder="补充说明需求、快递单号、注意事项等"
-              value="{{form.content}}"
-              data-field="content"
-              bindinput="onInput" />
-  </view>
+  <!-- Section 01 / ORDER -->
+  <view class="mag-card">
+    <view class="sec-head">
+      <view class="zone-tag"><text class="tag-num">01</text> / ORDER</view>
+      <view class="zone-cn">订单信息</view>
+    </view>
 
-  <view class="form-item">
-    <view class="label">订单类型<text class="required">*</text></view>
-    <picker mode="selector"
-            range="{{orderTypes}}"
-            value="{{orderTypeIndex}}"
-            bindchange="onOrderTypeChange">
-      <view class="picker">{{orderTypes[orderTypeIndex]}}</view>
-    </picker>
-  </view>
+    <view class="field">
+      <view class="field-lbl">TITLE <text class="req">*</text></view>
+      <input class="field-input"
+             placeholder="如：代拿菜鸟驿站快递"
+             value="{{form.title}}"
+             data-field="title"
+             bindinput="onInput" />
+    </view>
 
-  <view class="form-item">
-    <view class="label">订单金额（元）<text class="required">*</text></view>
-    <input class="input"
-           type="digit"
-           placeholder="0.00"
-           value="{{form.price}}"
-           data-field="price"
-           bindinput="onInput" />
-  </view>
+    <view class="field">
+      <view class="field-lbl">NOTE</view>
+      <textarea class="field-textarea"
+                placeholder="补充说明需求、快递单号、注意事项等"
+                value="{{form.content}}"
+                data-field="content"
+                bindinput="onInput" />
+    </view>
 
-  <view class="form-item">
-    <view class="label">跑腿费 / 小费（元）</view>
-    <input class="input"
-           type="digit"
-           placeholder="可选，默认 0"
-           value="{{form.tip}}"
-           data-field="tip"
-           bindinput="onInput" />
-  </view>
-
-  <view class="form-item">
-    <view class="label">期望完成时间</view>
-    <view class="datetime-row">
-      <picker mode="date" value="{{date}}" start="{{today}}" bindchange="onDateChange">
-        <view class="picker">{{date || '选择日期'}}</view>
+    <view class="field">
+      <view class="field-lbl">TYPE <text class="req">*</text></view>
+      <picker mode="selector"
+              range="{{orderTypes}}"
+              value="{{orderTypeIndex}}"
+              bindchange="onOrderTypeChange">
+        <view class="field-picker">
+          <text>{{orderTypes[orderTypeIndex]}}</text>
+          <text class="chev">↓</text>
+        </view>
       </picker>
-      <picker mode="time" value="{{time}}" bindchange="onTimeChange">
-        <view class="picker">{{time || '选择时间'}}</view>
-      </picker>
+    </view>
+
+    <view class="field-row">
+      <view class="field half">
+        <view class="field-lbl">PRICE ¥ <text class="req">*</text></view>
+        <input class="field-input"
+               type="digit"
+               placeholder="0.00"
+               value="{{form.price}}"
+               data-field="price"
+               bindinput="onInput" />
+      </view>
+
+      <view class="field half">
+        <view class="field-lbl">TIP ¥</view>
+        <input class="field-input"
+               type="digit"
+               placeholder="0.00"
+               value="{{form.tip}}"
+               data-field="tip"
+               bindinput="onInput" />
+      </view>
+    </view>
+
+    <view class="field">
+      <view class="field-lbl">DEADLINE</view>
+      <view class="datetime-row">
+        <picker class="picker-wrap" mode="date" value="{{date}}" start="{{today}}" bindchange="onDateChange">
+          <view class="field-picker">
+            <text>{{date || 'YYYY-MM-DD'}}</text>
+            <text class="chev">↓</text>
+          </view>
+        </picker>
+        <picker class="picker-wrap" mode="time" value="{{time}}" bindchange="onTimeChange">
+          <view class="field-picker">
+            <text>{{time || 'HH:mm'}}</text>
+            <text class="chev">↓</text>
+          </view>
+        </picker>
+      </view>
     </view>
   </view>
 
-  <view class="form-item">
-    <view class="label">收货人姓名<text class="required">*</text></view>
-    <input class="input"
-           placeholder="请输入收货人姓名"
-           value="{{form.receiverName}}"
-           data-field="receiverName"
-           bindinput="onInput" />
+  <!-- Section 02 / RECEIVE -->
+  <view class="mag-card">
+    <view class="sec-head">
+      <view class="zone-tag"><text class="tag-num">02</text> / RECEIVE</view>
+      <view class="zone-cn">收货信息</view>
+    </view>
+
+    <view class="field">
+      <view class="field-lbl">NAME <text class="req">*</text></view>
+      <input class="field-input"
+             placeholder="收货人姓名"
+             value="{{form.receiverName}}"
+             data-field="receiverName"
+             bindinput="onInput" />
+    </view>
+
+    <view class="field">
+      <view class="field-lbl">PHONE <text class="req">*</text></view>
+      <input class="field-input"
+             type="number"
+             maxlength="11"
+             placeholder="11 位手机号"
+             value="{{form.receiverPhone}}"
+             data-field="receiverPhone"
+             bindinput="onInput" />
+    </view>
+
+    <view class="field">
+      <view class="field-lbl">TO <text class="req">*</text></view>
+      <textarea class="field-textarea"
+                placeholder="详细收货地址"
+                value="{{form.receiverAddress}}"
+                data-field="receiverAddress"
+                bindinput="onInput" />
+    </view>
+
+    <view class="field">
+      <view class="field-lbl">FROM</view>
+      <textarea class="field-textarea"
+                placeholder="代拿场景请填写，如菜鸟驿站 / 快递柜"
+                value="{{form.pickupAddress}}"
+                data-field="pickupAddress"
+                bindinput="onInput" />
+    </view>
   </view>
 
-  <view class="form-item">
-    <view class="label">收货人电话<text class="required">*</text></view>
-    <input class="input"
-           type="number"
-           maxlength="11"
-           placeholder="11 位手机号"
-           value="{{form.receiverPhone}}"
-           data-field="receiverPhone"
-           bindinput="onInput" />
-  </view>
-
-  <view class="form-item">
-    <view class="label">收货地址<text class="required">*</text></view>
-    <textarea class="textarea"
-              placeholder="详细收货地址"
-              value="{{form.receiverAddress}}"
-              data-field="receiverAddress"
-              bindinput="onInput" />
-  </view>
-
-  <view class="form-item">
-    <view class="label">取货地址</view>
-    <textarea class="textarea"
-              placeholder="代拿场景请填写，如菜鸟驿站 / 快递柜"
-              value="{{form.pickupAddress}}"
-              data-field="pickupAddress"
-              bindinput="onInput" />
-  </view>
-
+  <!-- 提交 -->
   <button class="submit-btn"
-          type="primary"
           loading="{{submitting}}"
           disabled="{{submitting}}"
-          bindtap="onSubmit">提交订单</button>
+          bindtap="onSubmit">
+    <text class="submit-label">→ PUBLISH ORDER</text>
+    <text class="submit-cn">提交订单</text>
+  </button>
 </view>

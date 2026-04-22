@@ -1,5 +1,8 @@
 {
   "navigationBarTitleText": "跑腿大厅",
+  "navigationBarBackgroundColor": "#F2EDE4",
+  "navigationBarTextStyle": "black",
+  "backgroundColor": "#F2EDE4",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark"
 }

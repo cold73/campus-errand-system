@@ -44,6 +44,7 @@ Page({
     return {
       ...order,
       statusLabel: status.label,
+      statusEn: status.en,
       statusColor: status.color,
       statusBg: status.bg,
       typeLabel: getOrderTypeLabel(order.orderType),

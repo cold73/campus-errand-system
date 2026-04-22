@@ -45,6 +45,7 @@ Page({
     return {
       ...order,
       statusLabel: status.label,
+      statusEn: status.en,
       statusColor: status.color,
       statusBg: status.bg,
       displayPrice: Number(order.price || 0).toFixed(2),
