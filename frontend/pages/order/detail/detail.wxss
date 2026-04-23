@@ -113,3 +113,58 @@
   font-size: 26rpx;
   letter-spacing: 0.5rpx;
 }
+
+/* 取消订单区域 */
+.cancel-zone {
+  margin-top: 40rpx;
+  padding: 0 8rpx;
+}
+
+.cancel-main-btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 32rpx 0;
+  background: transparent;
+  border: 2rpx solid rgba(255, 91, 31, 0.45);
+  border-radius: 8rpx;
+  line-height: 1;
+}
+
+.cancel-main-btn::after {
+  border: none;
+}
+
+.cancel-main-btn[disabled] {
+  opacity: 0.45;
+  background: transparent;
+  color: #FF5B1F;
+}
+
+.btn-en {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 24rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+  color: #FF5B1F;
+}
+
+.btn-cn {
+  font-size: 30rpx;
+  font-weight: 700;
+  letter-spacing: 8rpx;
+  color: #FF5B1F;
+  padding-left: 8rpx;
+}
+
+.cancel-hint {
+  margin-top: 18rpx;
+  text-align: center;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 22rpx;
+  letter-spacing: 1rpx;
+  color: #8A847B;
+}

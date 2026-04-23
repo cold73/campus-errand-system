@@ -1,6 +1,7 @@
 package com.cold73.campuserrand.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.cold73.campuserrand.dto.CancelOrderDTO;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
 import com.cold73.campuserrand.dto.FinishOrderDTO;
 import com.cold73.campuserrand.dto.PickupOrderDTO;
@@ -259,6 +260,32 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long cancelOrder(CancelOrderDTO dto) {
+        // 1. 校验订单存在
+        Order order = orderMapper.selectById(dto.getOrderId());
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        // 2. 校验订单属于当前用户（防止越权取消别人的订单）
+        if (!dto.getUserId().equals(order.getUserId())) {
+            throw new BusinessException("无权取消该订单");
+        }
+        // 3. 校验订单处于"待接单"状态（已接单之后的取消走另一套流程）
+        if (order.getStatus() == null || order.getStatus() != 0) {
+            throw new BusinessException("订单已被接单或已取消，无法取消");
+        }
+
+        // 4. 更新订单主表状态为"已取消"
+        Order update = new Order();
+        update.setId(dto.getOrderId());
+        update.setStatus(4); // 4-已取消
+        orderMapper.updateById(update);
+
+        return order.getId();
     }
 
     /**

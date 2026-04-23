@@ -83,5 +83,16 @@
         <text class="info-val">{{detail.receive.pickupAddress}}</text>
       </view>
     </view>
+
+    <!-- 取消订单区域：仅待接单状态显示 -->
+    <view class="cancel-zone" wx:if="{{detail.order.canCancel}}">
+      <button class="cancel-main-btn"
+              bindtap="onCancel"
+              disabled="{{cancelling}}">
+        <text class="btn-en">→ CANCEL ORDER</text>
+        <text class="btn-cn">取 消 订 单</text>
+      </button>
+      <view class="cancel-hint">取消后订单状态将变为「已取消」且不可恢复</view>
+    </view>
   </block>
 </view>

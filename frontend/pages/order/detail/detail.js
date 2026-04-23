@@ -1,3 +1,4 @@
+const app = getApp();
 const { request } = require('../../../utils/request');
 const { API } = require('../../../config/api');
 const { getStatus, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
@@ -8,6 +9,7 @@ Page({
     detail: null,
     loading: true,
     notFound: false,
+    cancelling: false,
   },
 
   onLoad(options) {
@@ -59,11 +61,48 @@ Page({
         hasContent: !!(order.content && String(order.content).trim()),
         displayCreateTime: formatTime(order.createTime),
         displayExpectFinishTime: formatTime(order.expectFinishTime),
+        canCancel: order.status === 0,
       },
       receive: {
         ...receive,
         hasPickupAddress: !!(receive.pickupAddress && String(receive.pickupAddress).trim()),
       },
     };
+  },
+
+  onCancel() {
+    const order = this.data.detail && this.data.detail.order;
+    if (!order) return;
+    wx.showModal({
+      title: '确认取消',
+      content: `确定要取消订单「${order.title}」吗？`,
+      confirmText: '取消订单',
+      confirmColor: '#FF5B1F',
+      cancelText: '再想想',
+      success: (res) => {
+        if (res.confirm) this.doCancel(order.id);
+      },
+    });
+  },
+
+  async doCancel(orderId) {
+    if (this.data.cancelling) return;
+    this.setData({ cancelling: true });
+    wx.showLoading({ title: '取消中...', mask: true });
+    try {
+      await request({
+        url: API.ORDER_CANCEL,
+        method: 'POST',
+        data: { orderId, userId: app.globalData.userId },
+      });
+      wx.hideLoading();
+      wx.showToast({ title: '已取消', icon: 'success' });
+      this.loadDetail(orderId);
+    } catch (e) {
+      wx.hideLoading();
+      // request.js 已 toast
+    } finally {
+      this.setData({ cancelling: false });
+    }
   },
 });

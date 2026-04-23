@@ -1,5 +1,6 @@
 package com.cold73.campuserrand.service;
 
+import com.cold73.campuserrand.dto.CancelOrderDTO;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
 import com.cold73.campuserrand.dto.FinishOrderDTO;
 import com.cold73.campuserrand.dto.PickupOrderDTO;
@@ -83,4 +84,14 @@ public interface OrderService {
      * @return 合并订单主信息 + 接单时间节点的 VO 列表
      */
     List<MyTaskVO> listTasksByRunnerId(Long runnerId);
+
+    /**
+     * 用户取消订单：仅允许取消状态为 0（待接单）且属于自己的订单
+     * 订单状态 0(待接单) → 4(已取消)
+     * 校验失败时抛出 BusinessException
+     *
+     * @param dto 取消参数（orderId + userId）
+     * @return 被取消订单的 ID
+     */
+    Long cancelOrder(CancelOrderDTO dto);
 }

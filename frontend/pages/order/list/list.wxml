@@ -18,33 +18,52 @@
 
   <!-- 订单列表 -->
   <block wx:else>
-    <view class="mag-card"
+    <view class="swipe-item"
           wx:for="{{orders}}"
-          wx:key="id"
-          data-id="{{item.id}}"
-          bindtap="goDetail">
-      <view class="top-row">
-        <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
-          {{item.statusEn}}
+          wx:key="id">
+      <!-- 背后的取消按钮区：只有待接单订单有 -->
+      <view class="swipe-action" wx:if="{{item.canCancel}}">
+        <view class="swipe-cancel-btn"
+              catchtap="onCancel"
+              data-id="{{item.id}}"
+              data-title="{{item.title}}">
+          <text class="sc-en">CANCEL</text>
+          <text class="sc-cn">取 消</text>
         </view>
-        <view class="order-no">NO·{{item.orderNo}}</view>
       </view>
 
-      <view class="card-title">{{item.title}}</view>
-
-      <view class="card-meta">
-        <text>{{item.displayTime}}</text>
-      </view>
-
-      <view class="card-content" wx:if="{{item.hasContent}}">{{item.content}}</view>
-
-      <view class="card-footer">
-        <view class="price-block">
-          <text class="price-yen">¥</text>
-          <text class="price-big">{{item.displayPrice}}</text>
-          <text class="tip-chip" wx:if="{{item.hasTip}}">+¥{{item.displayTip}} TIP</text>
+      <!-- 前景卡片：可左滑 -->
+      <view class="mag-card swipe-front {{item.animating ? 'animating' : ''}}"
+            style="transform: translateX({{item.swipeX || 0}}px);"
+            data-id="{{item.id}}"
+            data-cancancel="{{item.canCancel}}"
+            bindtouchstart="onTouchStart"
+            bindtouchmove="onTouchMove"
+            bindtouchend="onTouchEnd"
+            catchtap="goDetail">
+        <view class="top-row">
+          <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
+            {{item.statusEn}}
+          </view>
+          <view class="order-no">NO·{{item.orderNo}}</view>
         </view>
-        <text class="status-cn">{{item.statusLabel}}</text>
+
+        <view class="card-title">{{item.title}}</view>
+
+        <view class="card-meta">
+          <text>{{item.displayTime}}</text>
+        </view>
+
+        <view class="card-content" wx:if="{{item.hasContent}}">{{item.content}}</view>
+
+        <view class="card-footer">
+          <view class="price-block">
+            <text class="price-yen">¥</text>
+            <text class="price-big">{{item.displayPrice}}</text>
+            <text class="tip-chip" wx:if="{{item.hasTip}}">+¥{{item.displayTip}} TIP</text>
+          </view>
+          <text class="status-cn">{{item.statusLabel}}</text>
+        </view>
       </view>
     </view>
   </block>

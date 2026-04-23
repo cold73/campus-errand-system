@@ -7,3 +7,59 @@
   letter-spacing: 2rpx;
   align-self: center;
 }
+
+/* -------- 左滑取消（仿微信消息列表） -------- */
+.swipe-item {
+  position: relative;
+}
+
+/* 背景层：比露出宽度更宽，多出部分藏在前景卡片下方，避免两块割裂的错觉 */
+.swipe-action {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0; /* mag-card 的 margin-bottom 不计入 swipe-item 高度，这里直接贴到卡片底部 */
+  width: 280rpx; /* ACTION_WIDTH=200rpx 的露出宽度 + 80rpx 藏在卡片下 */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: #FF5B1F;
+  /* 只右侧圆角，和 mag-card 右边圆角齐平；左侧直角 */
+  border-radius: 0 32rpx 32rpx 0;
+}
+
+.swipe-cancel-btn {
+  width: 200rpx; /* 和 JS 中 ACTION_WIDTH(=200rpx) 对齐，文字居中于露出区 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.sc-en {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+  color: #FFFFFF;
+}
+
+.sc-cn {
+  font-size: 26rpx;
+  font-weight: 700;
+  letter-spacing: 6rpx;
+  color: #FFFFFF;
+  padding-left: 6rpx;
+}
+
+/* 前景卡片：承载滑动 */
+.swipe-front {
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* 松开手时的吸附动画：由 JS 加 animating 类启用 */
+.swipe-front.animating {
+  transition: transform 0.22s ease;
+}

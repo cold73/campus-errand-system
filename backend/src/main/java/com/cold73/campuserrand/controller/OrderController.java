@@ -1,6 +1,7 @@
 package com.cold73.campuserrand.controller;
 
 import com.cold73.campuserrand.common.Result;
+import com.cold73.campuserrand.dto.CancelOrderDTO;
 import com.cold73.campuserrand.dto.CreateOrderDTO;
 import com.cold73.campuserrand.dto.FinishOrderDTO;
 import com.cold73.campuserrand.dto.PickupOrderDTO;
@@ -137,5 +138,21 @@ public class OrderController {
     @GetMapping("/my-tasks")
     public Result<List<MyTaskVO>> myTasks(@RequestParam Long runnerId) {
         return Result.success(orderService.listTasksByRunnerId(runnerId));
+    }
+
+    /**
+     * 用户取消订单：仅允许取消自己名下、状态为"待接单"的订单
+     *
+     * @param dto 取消参数（orderId + userId）
+     * @return 被取消订单的 ID
+     */
+    @PostMapping("/cancel")
+    public Result<Long> cancelOrder(@RequestBody @Valid CancelOrderDTO dto) {
+        try {
+            Long orderId = orderService.cancelOrder(dto);
+            return Result.success(orderId);
+        } catch (BusinessException e) {
+            return Result.error(e.getMessage());
+        }
     }
 }
