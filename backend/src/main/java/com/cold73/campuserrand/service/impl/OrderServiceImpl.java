@@ -47,6 +47,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long createOrder(CreateOrderDTO dto) {
+        // 0. 紧急等级合法性校验：未传默认 0-普通，传了必须是 0/1/2
+        Integer urgencyLevel = dto.getUrgencyLevel();
+        if (urgencyLevel == null) {
+            urgencyLevel = 0;
+        } else if (urgencyLevel < 0 || urgencyLevel > 2) {
+            throw new BusinessException("紧急等级取值非法");
+        }
+
         // 1. 构建订单主表数据
         Order order = new Order();
         order.setOrderNo(generateOrderNo());
@@ -57,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPrice(dto.getPrice());
         order.setTip(dto.getTip() != null ? dto.getTip() : BigDecimal.ZERO);
         order.setStatus(0); // 0-待接单
+        order.setUrgencyLevel(urgencyLevel);
         order.setExpectFinishTime(dto.getExpectFinishTime());
 
         orderMapper.insert(order);
@@ -252,6 +261,7 @@ public class OrderServiceImpl implements OrderService {
                     vo.setPrice(o.getPrice());
                     vo.setTip(o.getTip());
                     vo.setStatus(o.getStatus());
+                    vo.setUrgencyLevel(o.getUrgencyLevel());
                     vo.setExpectFinishTime(o.getExpectFinishTime());
                     vo.setCreateTime(o.getCreateTime());
                     vo.setTakeTime(ro.getTakeTime());

@@ -36,6 +36,9 @@ public class CreateOrderDTO {
     /** 跑腿费 / 小费（可选，默认0） */
     private BigDecimal tip;
 
+    /** 紧急等级：0-普通，1-紧急，2-超急（可选，默认0） */
+    private Integer urgencyLevel;
+
     /** 期望完成时间（可选） */
     private LocalDateTime expectFinishTime;
 

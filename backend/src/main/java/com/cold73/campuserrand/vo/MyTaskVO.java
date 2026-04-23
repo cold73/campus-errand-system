@@ -38,6 +38,9 @@ public class MyTaskVO {
     /** 订单状态：0-待接单，1-已接单，2-进行中，3-已完成，4-已取消 */
     private Integer status;
 
+    /** 紧急等级：0-普通，1-紧急，2-超急 */
+    private Integer urgencyLevel;
+
     /** 期望完成时间 */
     private LocalDateTime expectFinishTime;
 
