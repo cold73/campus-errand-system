@@ -9,6 +9,7 @@ Page({
   data: {
     orderTypes: ORDER_TYPES,
     orderTypeIndex: 0,
+    urgencyLevel: 0, // 紧急等级：0-普通 1-紧急 2-超急，默认普通
     date: '',
     time: '',
     today: '',
@@ -42,6 +43,10 @@ Page({
 
   onOrderTypeChange(e) {
     this.setData({ orderTypeIndex: Number(e.detail.value) });
+  },
+
+  onUrgencyTap(e) {
+    this.setData({ urgencyLevel: Number(e.currentTarget.dataset.level) });
   },
 
   onDateChange(e) {
@@ -90,6 +95,7 @@ Page({
       userId: app.globalData.userId,
       title: f.title.trim(),
       orderType: this.data.orderTypeIndex,
+      urgencyLevel: this.data.urgencyLevel,
       price: Number(f.price),
       receiverName: f.receiverName.trim(),
       receiverPhone: f.receiverPhone.trim(),

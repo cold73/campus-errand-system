@@ -22,12 +22,24 @@ const ORDER_TYPE_MAP = {
   3: '其他',
 };
 
+// 订单紧急等级 ↔ editorial 调色（与后端 Order.urgencyLevel 对齐）
+// 0 普通不在订单卡片上展示标签，仅在发布页选择器里使用 label/en/color
+const URGENCY_MAP = {
+  0: { label: '普通', en: 'NORMAL', color: '#8A847B', bg: 'rgba(138, 132, 123, 0.15)' },
+  1: { label: '紧急', en: 'URGENT', color: '#FF5B1F', bg: 'rgba(255, 91, 31, 0.14)' },
+  2: { label: '超急', en: 'ASAP',   color: '#E63946', bg: 'rgba(230, 57, 70, 0.12)' },
+};
+
 function getStatus(status) {
   return STATUS_MAP[status] || STATUS_MAP[0];
 }
 
 function getOrderTypeLabel(type) {
   return ORDER_TYPE_MAP[type] || '未知';
+}
+
+function getUrgency(level) {
+  return URGENCY_MAP[level] || URGENCY_MAP[0];
 }
 
 // 后端 LocalDateTime 序列化为 "2026-04-22T10:35:12" 或 "2026-04-22 10:35:12"，精简为 "2026-04-22 10:35"
@@ -40,7 +52,9 @@ function formatTime(raw) {
 module.exports = {
   STATUS_MAP,
   ORDER_TYPE_MAP,
+  URGENCY_MAP,
   getStatus,
   getOrderTypeLabel,
+  getUrgency,
   formatTime,
 };

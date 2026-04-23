@@ -44,6 +44,31 @@
       </picker>
     </view>
 
+    <!-- 紧急等级：三连按钮组，默认选中 NORMAL -->
+    <view class="field">
+      <view class="field-lbl">URGENCY <text class="req">*</text></view>
+      <view class="segment">
+        <view class="seg-item {{urgencyLevel === 0 ? 'active seg-normal' : ''}}"
+              data-level="0"
+              bindtap="onUrgencyTap">
+          <text class="seg-en">NORMAL</text>
+          <text class="seg-cn">普 通</text>
+        </view>
+        <view class="seg-item {{urgencyLevel === 1 ? 'active seg-urgent' : ''}}"
+              data-level="1"
+              bindtap="onUrgencyTap">
+          <text class="seg-en">URGENT</text>
+          <text class="seg-cn">紧 急</text>
+        </view>
+        <view class="seg-item {{urgencyLevel === 2 ? 'active seg-asap' : ''}}"
+              data-level="2"
+              bindtap="onUrgencyTap">
+          <text class="seg-en">ASAP</text>
+          <text class="seg-cn">超 急</text>
+        </view>
+      </view>
+    </view>
+
     <view class="field-row">
       <view class="field half">
         <view class="field-lbl">PRICE ¥ <text class="req">*</text></view>
