@@ -18,14 +18,21 @@
 
   <!-- 任务列表 -->
   <block wx:else>
-    <view class="mag-card mag-card-task"
+    <view class="mag-card mag-card-task {{item.urgencyClass}}"
           wx:for="{{tasks}}"
           wx:key="id"
           bindtap="goDetail"
           data-id="{{item.id}}">
       <view class="top-row">
-        <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
-          {{item.statusEn}}
+        <view class="pills-group">
+          <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
+            {{item.statusEn}}
+          </view>
+          <view class="status-pill urgency-pill"
+                wx:if="{{item.showUrgency}}"
+                style="color: {{item.urgencyColor}}; background: {{item.urgencyBg}};">
+            {{item.urgencyLabel}}
+          </view>
         </view>
         <view class="type-tag-mono">{{item.typeLabel}}</view>
       </view>

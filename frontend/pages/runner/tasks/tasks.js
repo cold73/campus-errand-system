@@ -1,7 +1,7 @@
 const app = getApp();
 const { request } = require('../../../utils/request');
 const { API } = require('../../../config/api');
-const { getStatus, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
+const { getStatus, getUrgency, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
 
 Page({
   data: {
@@ -41,6 +41,8 @@ Page({
 
   decorate(task) {
     const status = getStatus(task.status);
+    const urgency = getUrgency(task.urgencyLevel);
+    const level = Number(task.urgencyLevel) || 0;
     const tipNum = Number(task.tip || 0);
     // 1=已接单 → 待取货；2=进行中 → 可完成；其它状态无操作
     let action = null;
@@ -52,6 +54,11 @@ Page({
       statusEn: status.en,
       statusColor: status.color,
       statusBg: status.bg,
+      showUrgency: level > 0,
+      urgencyLabel: urgency.label,
+      urgencyColor: urgency.color,
+      urgencyBg: urgency.bg,
+      urgencyClass: level === 2 ? 'is-asap' : (level === 1 ? 'is-urgent' : ''),
       typeLabel: getOrderTypeLabel(task.orderType),
       displayPrice: Number(task.price || 0).toFixed(2),
       displayTip: tipNum.toFixed(2),

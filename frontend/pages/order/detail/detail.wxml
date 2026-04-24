@@ -11,8 +11,15 @@
     <view class="detail-hero">
       <view class="hero-top">
         <view class="mini-label">ORDER DETAIL</view>
-        <view class="status-pill" style="color: {{detail.order.statusColor}}; background: {{detail.order.statusBg}};">
-          {{detail.order.statusEn}}
+        <view class="pills-group">
+          <view class="status-pill urgency-pill"
+                wx:if="{{detail.order.showUrgency}}"
+                style="color: {{detail.order.urgencyColor}}; background: {{detail.order.urgencyBg}};">
+            {{detail.order.urgencyLabel}}
+          </view>
+          <view class="status-pill" style="color: {{detail.order.statusColor}}; background: {{detail.order.statusBg}};">
+            {{detail.order.statusEn}}
+          </view>
         </view>
       </view>
       <view class="hero-title">{{detail.order.title}}</view>

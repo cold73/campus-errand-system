@@ -33,7 +33,7 @@
       </view>
 
       <!-- 前景卡片：可左滑 -->
-      <view class="mag-card swipe-front {{item.animating ? 'animating' : ''}}"
+      <view class="mag-card swipe-front {{item.urgencyClass}} {{item.animating ? 'animating' : ''}}"
             style="transform: translateX({{item.swipeX || 0}}px);"
             data-id="{{item.id}}"
             data-cancancel="{{item.canCancel}}"
@@ -42,8 +42,15 @@
             bindtouchend="onTouchEnd"
             catchtap="goDetail">
         <view class="top-row">
-          <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
-            {{item.statusEn}}
+          <view class="pills-group">
+            <view class="status-pill" style="color: {{item.statusColor}}; background: {{item.statusBg}};">
+              {{item.statusEn}}
+            </view>
+            <view class="status-pill urgency-pill"
+                  wx:if="{{item.showUrgency}}"
+                  style="color: {{item.urgencyColor}}; background: {{item.urgencyBg}};">
+              {{item.urgencyLabel}}
+            </view>
           </view>
           <view class="order-no">NO·{{item.orderNo}}</view>
         </view>

@@ -1,7 +1,7 @@
 const app = getApp();
 const { request } = require('../../../utils/request');
 const { API } = require('../../../config/api');
-const { getStatus, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
+const { getStatus, getUrgency, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
 
 Page({
   data: {
@@ -40,6 +40,8 @@ Page({
 
   decorate(order) {
     const status = getStatus(order.status);
+    const urgency = getUrgency(order.urgencyLevel);
+    const level = Number(order.urgencyLevel) || 0;
     const tipNum = Number(order.tip || 0);
     return {
       ...order,
@@ -47,6 +49,11 @@ Page({
       statusEn: status.en,
       statusColor: status.color,
       statusBg: status.bg,
+      showUrgency: level > 0,
+      urgencyLabel: urgency.label,
+      urgencyColor: urgency.color,
+      urgencyBg: urgency.bg,
+      urgencyClass: level === 2 ? 'is-asap' : (level === 1 ? 'is-urgent' : ''),
       typeLabel: getOrderTypeLabel(order.orderType),
       displayPrice: Number(order.price || 0).toFixed(2),
       displayTip: tipNum.toFixed(2),

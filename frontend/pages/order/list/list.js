@@ -1,7 +1,7 @@
 const app = getApp();
 const { request } = require('../../../utils/request');
 const { API } = require('../../../config/api');
-const { getStatus, formatTime } = require('../../../utils/orderMeta');
+const { getStatus, getUrgency, formatTime } = require('../../../utils/orderMeta');
 
 Page({
   data: {
@@ -47,6 +47,8 @@ Page({
   // 给订单补充展示用字段（避免 wxml 里写复杂表达式）
   decorate(order) {
     const status = getStatus(order.status);
+    const urgency = getUrgency(order.urgencyLevel);
+    const level = Number(order.urgencyLevel) || 0;
     const tipNum = Number(order.tip || 0);
     return {
       ...order,
@@ -54,6 +56,11 @@ Page({
       statusEn: status.en,
       statusColor: status.color,
       statusBg: status.bg,
+      showUrgency: level > 0, // 普通不显示标签
+      urgencyLabel: urgency.label, // 中文：紧急 / 超急
+      urgencyColor: urgency.color,
+      urgencyBg: urgency.bg,
+      urgencyClass: level === 2 ? 'is-asap' : (level === 1 ? 'is-urgent' : ''),
       displayPrice: Number(order.price || 0).toFixed(2),
       displayTip: tipNum.toFixed(2),
       hasTip: tipNum > 0,

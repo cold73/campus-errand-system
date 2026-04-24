@@ -208,6 +208,26 @@ page {
   background: currentColor;
 }
 
+/* 多个 pill 并排的容器（如 status + urgency） */
+.pills-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+/* 紧急订单卡片：整圈橙色描边（沿圆角走，避免"左侧竖条"上下割裂感） */
+.mag-card.is-urgent {
+  border: 3rpx solid #FF5B1F;
+  box-shadow: 0 8rpx 28rpx rgba(255, 91, 31, 0.08);
+}
+
+/* 超急订单卡片：整圈红色描边 + 极淡红色渐变底 */
+.mag-card.is-asap {
+  border: 3rpx solid #E63946;
+  background: linear-gradient(90deg, rgba(230, 57, 70, 0.06) 0%, #fff 40%);
+  box-shadow: 0 8rpx 28rpx rgba(230, 57, 70, 0.10);
+}
+
 /* ---------- editorial 按钮 ---------- */
 .ed-btn {
   font-family: 'Courier New', 'Menlo', monospace;
