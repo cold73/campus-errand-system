@@ -8,9 +8,6 @@ Page({
     tasks: [],
     loading: true,
     submitting: false,
-    income: null, // { totalIncome, settledIncome, orderCount }
-    incomeRecords: [],
-    showIncomeDetail: false,
   },
 
   onLoad() {
@@ -30,16 +27,8 @@ Page({
     this.setData({ loading: true });
     const runnerId = app.globalData.runnerId;
     try {
-      const [list, summary, records] = await Promise.all([
-        request({ url: API.ORDER_MY_TASKS, method: 'GET', data: { runnerId } }),
-        request({ url: API.INCOME_SUMMARY, method: 'GET', data: { runnerId } }),
-        request({ url: API.INCOME_LIST, method: 'GET', data: { runnerId } }),
-      ]);
-      this.setData({
-        tasks: (list || []).map(this.decorate),
-        income: summary || null,
-        incomeRecords: (records || []).map(this.decorateIncome),
-      });
+      const list = await request({ url: API.ORDER_MY_TASKS, method: 'GET', data: { runnerId } });
+      this.setData({ tasks: (list || []).map(this.decorate) });
     } catch (e) {
       // request.js 已 toast
     } finally {
@@ -47,22 +36,6 @@ Page({
     }
   },
 
-  decorateIncome(r) {
-    const statusMap = { 0: '待结算', 1: '已结算' };
-    const d = r.createTime ? r.createTime.replace('T', ' ').substring(0, 16) : '-';
-    return {
-      ...r,
-      statusLabel: statusMap[r.status] || '-',
-      displayAmount: Number(r.amount || 0).toFixed(2),
-      displayTime: d,
-    };
-  },
-
-  toggleIncomeDetail() {
-    this.setData({ showIncomeDetail: !this.data.showIncomeDetail });
-  },
-
-  // 兼容旧调用
   loadTasks() {
     return this.loadAll();
   },
