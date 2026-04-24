@@ -3,6 +3,23 @@ const { request } = require('../../../utils/request');
 const { API } = require('../../../config/api');
 const { getStatus, getUrgency, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
 
+// 3 步简化流程（跑腿员侧：status 1→2→3）
+const TASK_STEPS = [
+  { en: 'TAKEN', cn: '已接单' },
+  { en: 'DOING', cn: '进行中' },
+  { en: 'DONE',  cn: '已完成' },
+];
+
+function buildTaskSteps(status) {
+  const activeIndex = Number(status) - 1; // 1→0, 2→1, 3→2
+  return TASK_STEPS.map((step, i) => ({
+    ...step,
+    state: i < activeIndex ? 'state-past' : (i === activeIndex ? 'state-active' : 'state-future'),
+    isFirst: i === 0,
+    isLast: i === TASK_STEPS.length - 1,
+  }));
+}
+
 Page({
   data: {
     tasks: [],
@@ -68,6 +85,7 @@ Page({
       displayTakeTime: formatTime(task.takeTime),
       displayCreateTime: formatTime(task.createTime),
       action,
+      taskSteps: buildTaskSteps(task.status),
     };
   },
 

@@ -114,6 +114,138 @@
   letter-spacing: 0.5rpx;
 }
 
+/* ---- 状态流程条 ---- */
+.flow-bar {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+  padding: 20rpx 8rpx;
+}
+
+.flow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flow-step-top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10rpx;
+}
+
+.flow-line-left,
+.flow-line-right {
+  flex: 1;
+  height: 2rpx;
+}
+
+.flow-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* past */
+.flow-step.state-past .flow-dot {
+  background: #0A0A0A;
+}
+.flow-step.state-past .flow-line-left,
+.flow-step.state-past .flow-line-right {
+  background: #0A0A0A;
+}
+.flow-step.state-past .flow-en,
+.flow-step.state-past .flow-cn {
+  color: #0A0A0A;
+}
+
+/* active */
+.flow-step.state-active .flow-dot {
+  background: #FF5B1F;
+  animation: flow-pulse 1.4s ease-in-out infinite;
+}
+.flow-step.state-active .flow-line-left {
+  background: #0A0A0A;
+}
+.flow-step.state-active .flow-line-right {
+  border-top: 2rpx dashed rgba(10,10,10,0.18);
+  background: transparent;
+  height: 0;
+}
+.flow-step.state-active .flow-en,
+.flow-step.state-active .flow-cn {
+  color: #FF5B1F;
+}
+
+/* future */
+.flow-step.state-future .flow-dot {
+  border: 2rpx solid rgba(10,10,10,0.2);
+  background: transparent;
+}
+.flow-step.state-future .flow-line-left,
+.flow-step.state-future .flow-line-right {
+  border-top: 2rpx dashed rgba(10,10,10,0.18);
+  background: transparent;
+  height: 0;
+}
+.flow-step.state-future .flow-en,
+.flow-step.state-future .flow-cn {
+  color: rgba(10,10,10,0.2);
+}
+
+.flow-en {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 17rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.flow-cn {
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  text-align: center;
+  margin-top: 4rpx;
+}
+
+@keyframes flow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 91, 31, 0.5); }
+  50% { box-shadow: 0 0 0 8rpx rgba(255, 91, 31, 0); }
+}
+
+/* ---- 已取消警示卡 ---- */
+.cancelled-card {
+  background: rgba(230, 57, 70, 0.07);
+  border: 2rpx solid rgba(230, 57, 70, 0.3);
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.cancelled-card-en {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+  color: #E63946;
+}
+
+.cancelled-card-cn {
+  font-size: 30rpx;
+  font-weight: 700;
+  letter-spacing: 8rpx;
+  color: #E63946;
+}
+
 /* 取消订单区域 */
 .cancel-zone {
   margin-top: 40rpx;

@@ -26,6 +26,29 @@
       <view class="hero-no">NO·{{detail.order.orderNo}}</view>
     </view>
 
+    <!-- 状态流程条（非取消状态） -->
+    <view class="flow-bar" wx:if="{{!detail.order.isCancelled}}">
+      <view class="flow-step {{item.state}}"
+            wx:for="{{detail.steps}}"
+            wx:key="en"
+            wx:for-index="idx"
+            wx:for-item="item">
+        <view class="flow-step-top">
+          <view class="flow-line-left" wx:if="{{!item.isFirst}}"></view>
+          <view class="flow-dot"></view>
+          <view class="flow-line-right" wx:if="{{!item.isLast}}"></view>
+        </view>
+        <view class="flow-en">{{item.en}}</view>
+        <view class="flow-cn">{{item.cn}}</view>
+      </view>
+    </view>
+
+    <!-- 已取消警示卡（仅 status=4） -->
+    <view class="cancelled-card" wx:if="{{detail.order.isCancelled}}">
+      <view class="cancelled-card-en">✕ ORDER CANCELLED</view>
+      <view class="cancelled-card-cn">订 单 已 取 消</view>
+    </view>
+
     <!-- 01 / ORDER -->
     <view class="mag-card">
       <view class="sec-head">

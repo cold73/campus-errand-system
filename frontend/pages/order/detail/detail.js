@@ -3,6 +3,24 @@ const { request } = require('../../../utils/request');
 const { API } = require('../../../config/api');
 const { getStatus, getUrgency, getOrderTypeLabel, formatTime } = require('../../../utils/orderMeta');
 
+// 4 步完整流程（status 索引直接对应激活节点）
+const DETAIL_STEPS = [
+  { en: 'POSTED', cn: '已发布' },
+  { en: 'TAKEN',  cn: '已接单' },
+  { en: 'DOING',  cn: '进行中' },
+  { en: 'DONE',   cn: '已完成' },
+];
+
+function buildSteps(status) {
+  const s = Number(status) || 0;
+  return DETAIL_STEPS.map((step, i) => ({
+    ...step,
+    state: i < s ? 'state-past' : (i === s ? 'state-active' : 'state-future'),
+    isFirst: i === 0,
+    isLast: i === DETAIL_STEPS.length - 1,
+  }));
+}
+
 Page({
   data: {
     orderId: null,
@@ -69,11 +87,13 @@ Page({
         displayCreateTime: formatTime(order.createTime),
         displayExpectFinishTime: formatTime(order.expectFinishTime),
         canCancel: order.status === 0,
+      isCancelled: order.status === 4,
       },
       receive: {
         ...receive,
         hasPickupAddress: !!(receive.pickupAddress && String(receive.pickupAddress).trim()),
       },
+      steps: buildSteps(order.status),
     };
   },
 

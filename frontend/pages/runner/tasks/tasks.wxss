@@ -43,6 +43,97 @@
   font-size: 22rpx;
 }
 
+/* ---- 任务卡片内简化流程条 ---- */
+.flow-bar {
+  display: flex;
+  align-items: flex-start;
+}
+
+.flow-bar-compact {
+  margin: 14rpx 0 18rpx;
+  padding: 0;
+}
+
+.flow-bar-compact .flow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flow-bar-compact .flow-step-top {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8rpx;
+}
+
+.flow-bar-compact .flow-line-left,
+.flow-bar-compact .flow-line-right {
+  flex: 1;
+  height: 2rpx;
+}
+
+.flow-bar-compact .flow-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.flow-bar-compact .flow-step.state-past .flow-dot { background: #0A0A0A; }
+.flow-bar-compact .flow-step.state-past .flow-line-left,
+.flow-bar-compact .flow-step.state-past .flow-line-right { background: #0A0A0A; }
+.flow-bar-compact .flow-step.state-past .flow-en,
+.flow-bar-compact .flow-step.state-past .flow-cn { color: #0A0A0A; }
+
+.flow-bar-compact .flow-step.state-active .flow-dot {
+  background: #FF5B1F;
+  animation: flow-pulse 1.4s ease-in-out infinite;
+}
+.flow-bar-compact .flow-step.state-active .flow-line-left { background: #0A0A0A; }
+.flow-bar-compact .flow-step.state-active .flow-line-right {
+  border-top: 2rpx dashed rgba(10,10,10,0.18);
+  background: transparent;
+  height: 0;
+}
+.flow-bar-compact .flow-step.state-active .flow-en,
+.flow-bar-compact .flow-step.state-active .flow-cn { color: #FF5B1F; }
+
+.flow-bar-compact .flow-step.state-future .flow-dot {
+  border: 2rpx solid rgba(10,10,10,0.2);
+  background: transparent;
+}
+.flow-bar-compact .flow-step.state-future .flow-line-left,
+.flow-bar-compact .flow-step.state-future .flow-line-right {
+  border-top: 2rpx dashed rgba(10,10,10,0.18);
+  background: transparent;
+  height: 0;
+}
+.flow-bar-compact .flow-step.state-future .flow-en,
+.flow-bar-compact .flow-step.state-future .flow-cn { color: rgba(10,10,10,0.2); }
+
+.flow-bar-compact .flow-en {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 15rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+  text-align: center;
+}
+
+.flow-bar-compact .flow-cn {
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  text-align: center;
+  margin-top: 2rpx;
+}
+
+@keyframes flow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 91, 31, 0.5); }
+  50% { box-shadow: 0 0 0 6rpx rgba(255, 91, 31, 0); }
+}
+
 .done-hint {
   font-family: 'Courier New', 'Menlo', monospace;
   font-size: 22rpx;

@@ -56,6 +56,22 @@
         </view>
       </view>
 
+      <!-- 3 步简化流程条 -->
+      <view class="flow-bar flow-bar-compact">
+        <view class="flow-step {{step.state}}"
+              wx:for="{{item.taskSteps}}"
+              wx:key="en"
+              wx:for-item="step">
+          <view class="flow-step-top">
+            <view class="flow-line-left" wx:if="{{!step.isFirst}}"></view>
+            <view class="flow-dot"></view>
+            <view class="flow-line-right" wx:if="{{!step.isLast}}"></view>
+          </view>
+          <view class="flow-en">{{step.en}}</view>
+          <view class="flow-cn">{{step.cn}}</view>
+        </view>
+      </view>
+
       <view class="card-footer">
         <view class="price-block">
           <text class="price-yen">¥</text>
