@@ -6,11 +6,50 @@
     <view class="meta"><text class="count">{{tasks.length}}</text>TASKS · 跑腿员侧</view>
   </view>
 
+  <!-- 收益概览卡 -->
+  <view class="mag-card income-card" wx:if="{{income}}">
+    <view class="income-top-row">
+      <view class="income-label">EARNINGS</view>
+      <view class="income-hint">模拟结算 · 非真实支付</view>
+    </view>
+    <view class="income-amount-row">
+      <text class="price-yen">¥</text>
+      <text class="price-big">{{income.totalIncome}}</text>
+      <text class="income-unit">累计收入</text>
+    </view>
+    <view class="income-stats-row">
+      <view class="income-stat">
+        <text class="stat-val">{{income.orderCount}}</text>
+        <text class="stat-lbl">已完成</text>
+      </view>
+      <view class="income-stat">
+        <text class="stat-val">¥{{income.settledIncome}}</text>
+        <text class="stat-lbl">已结算</text>
+      </view>
+    </view>
+    <!-- 收入明细折叠区 -->
+    <view class="income-detail-toggle" bindtap="toggleIncomeDetail" wx:if="{{incomeRecords.length > 0}}">
+      <text>{{showIncomeDetail ? '收起明细 ↑' : '查看明细 ↓'}}</text>
+    </view>
+    <view wx:if="{{showIncomeDetail && incomeRecords.length > 0}}">
+      <view class="income-record" wx:for="{{incomeRecords}}" wx:key="id">
+        <view class="record-left">
+          <text class="record-order">订单 #{{item.orderId}}</text>
+          <text class="record-time">{{item.displayTime}}</text>
+        </view>
+        <view class="record-right">
+          <text class="record-amount">+¥{{item.displayAmount}}</text>
+          <text class="record-status">{{item.statusLabel}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 加载中 -->
   <view class="mag-loading" wx:if="{{loading && tasks.length === 0}}">LOADING ...</view>
 
   <!-- 空态 -->
-  <view class="mag-empty" wx:elif="{{tasks.length === 0}}">
+  <view class="mag-empty" wx:elif="{{tasks.length === 0 && !loading}}">
     <view class="em">No tasks</view>
     <view class="zh">你还没有接到订单</view>
     <view class="sub">GO TO LIVE HALL →</view>

@@ -19,6 +19,10 @@ const API = {
   ORDER_PICKUP: '/api/order/pickup',      // POST 取货确认
   ORDER_FINISH: '/api/order/finish',      // POST 完成订单
   ORDER_MY_TASKS: '/api/order/my-tasks',  // GET  我的接单列表 ?runnerId=
+
+  // 跑腿员收益（虚拟结算）
+  INCOME_SUMMARY: '/api/runner/income/summary', // GET 收益汇总 ?runnerId=
+  INCOME_LIST: '/api/runner/income/list',        // GET 收益明细 ?runnerId=
 };
 
 module.exports = {
