@@ -1,18 +1,17 @@
 const app = getApp();
 const { request } = require('../../utils/request');
 const { API } = require('../../config/api');
+const { sumTodayIncome } = require('../../utils/income');
 
 const WEEK_ABBR = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 Page({
   data: {
-    // 顶部时间信息
     timeLabel: '',
-    // 动态数量
-    activeOrders: 0, // 我的订单中未完成的数量（status 0/1/2）
-    hallCount: 0,    // 大厅待接订单
-    doingTasks: 0,   // 我的接单中进行中（status 1/2）
-    // 测试用户
+    activeOrders: 0,
+    hallCount: 0,
+    doingTasks: 0,
+    todayIncome: '0.00',
     userId: 1,
     runnerId: 1,
   },
@@ -26,7 +25,6 @@ Page({
     this.loadStats();
   },
 
-  // 从子页面返回刷新数量
   onShow() {
     this.setData({ timeLabel: this.buildTimeLabel() });
     this.loadStats();
@@ -42,17 +40,26 @@ Page({
   async loadStats() {
     const userId = app.globalData.userId;
     const runnerId = app.globalData.runnerId;
-    // 并发拉取，静默失败（首页不 toast 骚扰）
-    const [myOrders, hallOrders, myTasks] = await Promise.all([
-      request({ url: API.ORDER_LIST, method: 'GET', data: { userId }, silent: true }).catch(() => []),
-      request({ url: API.ORDER_HALL, method: 'GET', silent: true }).catch(() => []),
-      request({ url: API.ORDER_MY_TASKS, method: 'GET', data: { runnerId }, silent: true }).catch(() => []),
+    const results = await Promise.allSettled([
+      request({ url: API.ORDER_LIST, method: 'GET', data: { userId }, silent: true }),
+      request({ url: API.ORDER_HALL, method: 'GET', silent: true }),
+      request({ url: API.ORDER_MY_TASKS, method: 'GET', data: { runnerId }, silent: true }),
+      request({ url: API.INCOME_LIST, method: 'GET', data: { runnerId }, silent: true }),
     ]);
+    const myOrders  = results[0].status === 'fulfilled' ? (results[0].value || []) : [];
+    const hallOrders = results[1].status === 'fulfilled' ? (results[1].value || []) : [];
+    const myTasks   = results[2].status === 'fulfilled' ? (results[2].value || []) : [];
+    const incRecords = results[3].status === 'fulfilled' ? (results[3].value || []) : [];
     this.setData({
-      activeOrders: (myOrders || []).filter((o) => [0, 1, 2].includes(o.status)).length,
-      hallCount: (hallOrders || []).length,
-      doingTasks: (myTasks || []).filter((t) => [1, 2].includes(t.status)).length,
+      activeOrders: myOrders.filter((o) => [0, 1, 2].includes(o.status)).length,
+      hallCount: hallOrders.length,
+      doingTasks: myTasks.filter((t) => [1, 2].includes(t.status)).length,
+      todayIncome: sumTodayIncome(incRecords),
     });
+  },
+
+  goMine() {
+    wx.switchTab({ url: '/pages/mine/mine' });
   },
 
   goCreate() {

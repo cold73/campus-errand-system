@@ -1,0 +1,329 @@
+/* 我的页面 - editorial 风格，公共组件来自 app.wxss */
+
+/* ---------- 用户信息卡 ---------- */
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 28rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.04);
+}
+
+.avatar-wrap {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: #0A0A0A;
+  color: #D4FF3D;
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.user-name {
+  font-size: 32rpx;
+  font-weight: 900;
+  color: #0A0A0A;
+  letter-spacing: 0.5rpx;
+}
+
+.user-meta {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  color: #8A847B;
+  letter-spacing: 0.5rpx;
+}
+
+.user-badge {
+  display: inline-block;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 16rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  color: #FF5B1F;
+  background: rgba(255, 91, 31, 0.1);
+  padding: 3rpx 12rpx;
+  border-radius: 999rpx;
+  align-self: flex-start;
+}
+
+/* ---------- 收益概览卡（深色） ---------- */
+.income-card {
+  background: #0A0A0A;
+  margin-bottom: 20rpx;
+}
+
+.income-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.income-title-en {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+  color: #8A847B;
+}
+
+.income-settle-tag {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 16rpx;
+  color: #444;
+  letter-spacing: 0.5rpx;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+}
+
+.income-main {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24rpx;
+}
+
+.income-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.income-divider {
+  width: 2rpx;
+  height: 64rpx;
+  background: rgba(242, 237, 228, 0.1);
+  margin: 0 32rpx;
+  flex-shrink: 0;
+}
+
+.income-big-lbl {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  color: #8A847B;
+  letter-spacing: 1rpx;
+}
+
+.income-big-val {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 52rpx;
+  color: #F2EDE4;
+  line-height: 1;
+}
+
+.income-big-val.today-val {
+  color: #D4FF3D;
+}
+
+.price-yen-dark {
+  font-size: 26rpx;
+}
+
+.income-stats-row {
+  display: flex;
+  gap: 32rpx;
+  padding-top: 20rpx;
+  border-top: 2rpx dashed rgba(242, 237, 228, 0.1);
+}
+
+.income-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.ist-val {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 30rpx;
+  color: #F2EDE4;
+  line-height: 1;
+}
+
+.ist-lbl {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 16rpx;
+  color: #8A847B;
+  letter-spacing: 0.5rpx;
+}
+
+/* ---------- 个人数据卡 ---------- */
+.profile-card {
+  margin-bottom: 24rpx;
+}
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.profile-item {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.profile-val {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 40rpx;
+  color: #0A0A0A;
+  line-height: 1;
+}
+
+.profile-lbl {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 16rpx;
+  color: #8A847B;
+  letter-spacing: 0.5rpx;
+}
+
+.profile-sep {
+  width: 2rpx;
+  height: 52rpx;
+  background: rgba(10, 10, 10, 0.08);
+}
+
+/* ---------- 功能列表 ---------- */
+.func-section {
+  margin-bottom: 12rpx;
+}
+
+.func-section-title {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  color: #8A847B;
+  margin-bottom: 12rpx;
+  padding-left: 4rpx;
+}
+
+.func-list {
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 0 28rpx;
+  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.04);
+  margin-bottom: 20rpx;
+}
+
+.misc-list {
+  background: #fff;
+}
+
+.func-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid rgba(10, 10, 10, 0.05);
+}
+
+.func-item:last-child {
+  border-bottom: none;
+}
+
+.func-left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.func-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 30rpx;
+  flex-shrink: 0;
+}
+
+.func-icon.ink {
+  background: #0A0A0A;
+  color: #D4FF3D;
+}
+
+.func-icon.acid {
+  background: #D4FF3D;
+  color: #0A0A0A;
+}
+
+.func-icon.orange {
+  background: rgba(255, 91, 31, 0.15);
+  color: #FF5B1F;
+}
+
+.func-icon.orange-outline {
+  background: rgba(255, 91, 31, 0.08);
+  color: #FF5B1F;
+  border: 2rpx solid rgba(255, 91, 31, 0.25);
+}
+
+.func-icon.muted {
+  background: rgba(10, 10, 10, 0.05);
+  color: #8A847B;
+  font-style: normal;
+  font-family: 'PingFang SC', sans-serif;
+}
+
+.func-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.func-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #0A0A0A;
+  letter-spacing: 0.5rpx;
+}
+
+.func-desc {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  color: #8A847B;
+  letter-spacing: 0.5rpx;
+}
+
+.func-arrow {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #0A0A0A;
+}
+
+.func-arrow.muted-arrow {
+  color: #ccc;
+}

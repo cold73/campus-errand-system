@@ -424,88 +424,59 @@ page {
   opacity: 0.92;
 }
 
-/* ---------- 底部数据条 ---------- */
-.stats-bar {
+/* ---------- 今日收入条 ---------- */
+.income-strip {
   background: #fff;
   border-radius: 28rpx;
-  padding: 20rpx 26rpx;
+  padding: 22rpx 28rpx;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-top: 8rpx;
   box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.04);
 }
 
-.stat {
+.income-strip-left {
   display: flex;
-  align-items: center;
-  gap: 14rpx;
-  flex: 1;
+  flex-direction: column;
+  gap: 4rpx;
 }
 
-.stat-icon {
-  width: 52rpx; height: 52rpx;
-  border-radius: 14rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26rpx;
-  font-weight: 900;
-  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
-  font-style: italic;
-}
-
-.stat-icon.orange {
-  background: rgba(255, 91, 31, 0.15);
-  color: #FF5B1F;
-}
-
-.stat-icon.ink {
-  background: rgba(10, 10, 10, 0.08);
-  color: #0A0A0A;
-  font-family: inherit;
-  font-style: normal;
-}
-
-.stat-icon.acid {
-  background: rgba(212, 255, 61, 0.25);
-  color: #5c7a00;
-  font-family: inherit;
-  font-style: normal;
-}
-
-.stat-lbl {
+.income-strip-lbl {
+  font-family: 'Courier New', 'Menlo', monospace;
   font-size: 16rpx;
   color: #8A847B;
-  letter-spacing: 1rpx;
-  font-family: 'Courier New', 'Menlo', monospace;
+  letter-spacing: 1.5rpx;
   font-weight: 600;
 }
 
-.stat-val {
-  font-size: 26rpx;
+.income-strip-val {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
   font-weight: 900;
-  color: #0A0A0A;
-  line-height: 1.1;
+  font-size: 44rpx;
+  color: #FF5B1F;
+  line-height: 1;
 }
 
-.stat-div {
-  width: 2rpx; height: 44rpx;
-  background: rgba(0, 0, 0, 0.06);
+.income-strip-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
 }
 
-/* ---------- 底部测试信息 ---------- */
-.footer {
-  text-align: center;
-  margin-top: 36rpx;
+.income-strip-meta {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 16rpx;
+  color: #8A847B;
+  letter-spacing: 0.5rpx;
+}
+
+.income-strip-hint {
   font-family: 'Courier New', 'Menlo', monospace;
   font-size: 18rpx;
-  color: #8A847B;
-  letter-spacing: 2rpx;
-}
-
-.footer .em {
-  color: #0A0A0A;
   font-weight: 700;
-  font-style: normal;
+  color: #0A0A0A;
+  letter-spacing: 1rpx;
 }

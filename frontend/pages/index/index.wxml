@@ -97,35 +97,15 @@
     </view>
   </view>
 
-  <!-- 数据条 -->
-  <view class="stats-bar">
-    <view class="stat">
-      <view class="stat-icon orange">¥</view>
-      <view class="stat-info">
-        <view class="stat-lbl">TODAY</view>
-        <view class="stat-val">¥0.00</view>
-      </view>
+  <!-- 今日收入条（点击进入我的） -->
+  <view class="income-strip" bindtap="goMine">
+    <view class="income-strip-left">
+      <view class="income-strip-lbl">TODAY INCOME</view>
+      <view class="income-strip-val">¥{{todayIncome}}</view>
     </view>
-    <view class="stat-div"></view>
-    <view class="stat">
-      <view class="stat-icon ink">★</view>
-      <view class="stat-info">
-        <view class="stat-lbl">RATING</view>
-        <view class="stat-val">5.0</view>
-      </view>
+    <view class="income-strip-right">
+      <view class="income-strip-meta">USER·{{userId}} · RUNNER·{{runnerId}}</view>
+      <view class="income-strip-hint">进入我的 →</view>
     </view>
-    <view class="stat-div"></view>
-    <view class="stat">
-      <view class="stat-icon acid">▲</view>
-      <view class="stat-info">
-        <view class="stat-lbl">LEVEL</view>
-        <view class="stat-val">LV.1</view>
-      </view>
-    </view>
-  </view>
-
-  <!-- 底部测试信息 -->
-  <view class="footer">
-    USER·<text class="em">{{userId}}</text> ∙ RUNNER·<text class="em">{{runnerId}}</text> ∙ <text class="em">TEST MODE</text>
   </view>
 </view>

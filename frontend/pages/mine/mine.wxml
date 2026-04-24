@@ -1,0 +1,151 @@
+<view class="container">
+
+  <!-- Hero -->
+  <view class="mag-hero">
+    <view class="en">My<text class="dot">.</text>Profile</view>
+    <view class="zh">个 人 中 心</view>
+  </view>
+
+  <!-- 用户信息卡 -->
+  <view class="user-card">
+    <view class="avatar-wrap">
+      <view class="avatar">C</view>
+    </view>
+    <view class="user-info">
+      <view class="user-name">Campus Run 用户</view>
+      <view class="user-meta">USER · {{userId}} &nbsp;/&nbsp; RUNNER · {{runnerId}}</view>
+      <view class="user-badge">TEST MODE</view>
+    </view>
+  </view>
+
+  <!-- 收益概览卡（深色） -->
+  <view class="mag-card income-card">
+    <view class="income-header">
+      <view class="income-title-en">EARNINGS</view>
+      <view class="income-settle-tag">模拟结算</view>
+    </view>
+
+    <view class="income-main">
+      <view class="income-col">
+        <view class="income-big-lbl">累计收入</view>
+        <view class="income-big-val">
+          <text class="price-yen-dark">¥</text>{{totalIncome}}
+        </view>
+      </view>
+      <view class="income-divider"></view>
+      <view class="income-col">
+        <view class="income-big-lbl">今日收入</view>
+        <view class="income-big-val today-val">
+          <text class="price-yen-dark">¥</text>{{todayIncome}}
+        </view>
+      </view>
+    </view>
+
+    <view class="income-stats-row">
+      <view class="income-stat-item">
+        <text class="ist-val">{{orderCount}}</text>
+        <text class="ist-lbl">已完成订单</text>
+      </view>
+      <view class="income-stat-item">
+        <text class="ist-val">¥{{settledIncome}}</text>
+        <text class="ist-lbl">已结算金额</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 个人数据卡 -->
+  <view class="mag-card profile-card">
+    <view class="profile-row">
+      <view class="profile-item">
+        <view class="profile-val">5.0</view>
+        <view class="profile-lbl">信用评分</view>
+      </view>
+      <view class="profile-sep"></view>
+      <view class="profile-item">
+        <view class="profile-val">LV.1</view>
+        <view class="profile-lbl">跑腿等级</view>
+      </view>
+      <view class="profile-sep"></view>
+      <view class="profile-item">
+        <view class="profile-val">{{orderCount}}</view>
+        <view class="profile-lbl">接单总数</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="func-section">
+    <view class="func-section-title">QUICK ACCESS</view>
+
+    <view class="func-list">
+      <view class="func-item" bindtap="goPage" data-url="/pages/runner/tasks/tasks">
+        <view class="func-left">
+          <view class="func-icon ink">T</view>
+          <view class="func-text">
+            <view class="func-name">我的接单</view>
+            <view class="func-desc">查看接单任务 / 进行中</view>
+          </view>
+        </view>
+        <view class="func-arrow">→</view>
+      </view>
+
+      <view class="func-item" bindtap="goPage" data-url="/pages/runner/hall/hall">
+        <view class="func-left">
+          <view class="func-icon acid">H</view>
+          <view class="func-text">
+            <view class="func-name">跑腿大厅</view>
+            <view class="func-desc">浏览 / 抢接待接订单</view>
+          </view>
+        </view>
+        <view class="func-arrow">→</view>
+      </view>
+
+      <view class="func-item" bindtap="goPage" data-url="/pages/order/list/list">
+        <view class="func-left">
+          <view class="func-icon orange">O</view>
+          <view class="func-text">
+            <view class="func-name">我的订单</view>
+            <view class="func-desc">查看已发布的订单</view>
+          </view>
+        </view>
+        <view class="func-arrow">→</view>
+      </view>
+
+      <view class="func-item" bindtap="goPage" data-url="/pages/order/create/create">
+        <view class="func-left">
+          <view class="func-icon orange-outline">+</view>
+          <view class="func-text">
+            <view class="func-name">发布订单</view>
+            <view class="func-desc">发布新的跑腿需求</view>
+          </view>
+        </view>
+        <view class="func-arrow">→</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 辅助功能（占位） -->
+  <view class="func-list misc-list">
+    <view class="func-item" bindtap="onPlaceholder">
+      <view class="func-left">
+        <view class="func-icon muted">?</view>
+        <view class="func-text">
+          <view class="func-name">本校客服</view>
+          <view class="func-desc">敬请期待</view>
+        </view>
+      </view>
+      <view class="func-arrow muted-arrow">→</view>
+    </view>
+    <view class="func-item" bindtap="onPlaceholder">
+      <view class="func-left">
+        <view class="func-icon muted">i</view>
+        <view class="func-text">
+          <view class="func-name">关于系统</view>
+          <view class="func-desc">校园跑腿 v1.0 · 毕设演示</view>
+        </view>
+      </view>
+      <view class="func-arrow muted-arrow">→</view>
+    </view>
+  </view>
+
+</view>
