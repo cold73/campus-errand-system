@@ -8,10 +8,12 @@ import com.cold73.campuserrand.dto.PickupOrderDTO;
 import com.cold73.campuserrand.dto.TakeOrderDTO;
 import com.cold73.campuserrand.entity.Order;
 import com.cold73.campuserrand.entity.OrderReceive;
+import com.cold73.campuserrand.entity.RunnerIncome;
 import com.cold73.campuserrand.entity.RunnerOrder;
 import com.cold73.campuserrand.exception.BusinessException;
 import com.cold73.campuserrand.mapper.OrderMapper;
 import com.cold73.campuserrand.mapper.OrderReceiveMapper;
+import com.cold73.campuserrand.mapper.RunnerIncomeMapper;
 import com.cold73.campuserrand.mapper.RunnerOrderMapper;
 import com.cold73.campuserrand.service.OrderService;
 import com.cold73.campuserrand.vo.MyTaskVO;
@@ -40,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderReceiveMapper orderReceiveMapper;
     private final RunnerOrderMapper runnerOrderMapper;
+    private final RunnerIncomeMapper runnerIncomeMapper;
 
     private static final DateTimeFormatter ORDER_NO_FORMATTER =
             DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -224,6 +227,25 @@ public class OrderServiceImpl implements OrderService {
         orderUpdate.setId(dto.getOrderId());
         orderUpdate.setStatus(3); // 3-已完成
         orderMapper.updateById(orderUpdate);
+
+        // 7. 生成收益记录（幂等：order_id 唯一索引保证不会重复结算）
+        boolean alreadySettled = runnerIncomeMapper.selectCount(
+                Wrappers.<RunnerIncome>lambdaQuery()
+                        .eq(RunnerIncome::getOrderId, dto.getOrderId())
+        ) > 0;
+        if (!alreadySettled) {
+            BigDecimal price = order.getPrice() != null ? order.getPrice() : BigDecimal.ZERO;
+            BigDecimal tip = order.getTip() != null ? order.getTip() : BigDecimal.ZERO;
+            RunnerIncome income = new RunnerIncome();
+            income.setRunnerId(dto.getRunnerId());
+            income.setOrderId(dto.getOrderId());
+            income.setAmount(price.add(tip));
+            income.setStatus(1); // 1-已结算
+            income.setRemark("订单完成收入");
+            income.setCreateTime(LocalDateTime.now());
+            income.setUpdateTime(LocalDateTime.now());
+            runnerIncomeMapper.insert(income);
+        }
 
         return runnerOrder.getId();
     }
