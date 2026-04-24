@@ -71,7 +71,13 @@
 
     <view class="field-row">
       <view class="field half">
-        <view class="field-lbl">PRICE ¥ <text class="req">*</text></view>
+        <view class="field-lbl-row">
+          <text class="field-lbl">PRICE ¥ <text class="req">*</text></text>
+          <view class="ai-btn {{suggesting ? 'ai-btn-loading' : ''}}"
+                bindtap="onSuggestPrice">
+            {{suggesting ? '估价中...' : '✦ AI 估价'}}
+          </view>
+        </view>
         <input class="field-input"
                type="digit"
                placeholder="0.00"
@@ -89,6 +95,23 @@
                data-field="tip"
                bindinput="onInput" />
       </view>
+    </view>
+
+    <!-- AI 估价结果卡 -->
+    <view class="ai-card" wx:if="{{suggest}}">
+      <view class="ai-card-header">
+        <view class="ai-card-title">AI · 估价结果</view>
+        <view class="ai-apply-btn" bindtap="onApplySuggest">应用此价格 →</view>
+      </view>
+      <view class="ai-price-row">
+        <text class="ai-lbl">建议价格</text>
+        <text class="ai-val">¥{{suggest.suggestPrice}}</text>
+      </view>
+      <view class="ai-price-row">
+        <text class="ai-lbl">建议小费</text>
+        <text class="ai-val">¥{{suggest.suggestTip}}</text>
+      </view>
+      <view class="ai-reason">{{suggest.reason}}</view>
     </view>
 
     <view class="field">

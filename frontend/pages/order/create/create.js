@@ -14,6 +14,8 @@ Page({
     time: '',
     today: '',
     submitting: false,
+    suggesting: false,  // AI 估价请求中
+    suggest: null,      // { suggestPrice, suggestTip, reason }
     form: {
       title: '',
       content: '',
@@ -81,6 +83,42 @@ Page({
     const { date, time } = this.data;
     if (!date || !time) return null;
     return `${date}T${time}:00`;
+  },
+
+  async onSuggestPrice() {
+    const f = this.data.form;
+    if (!f.content.trim()) {
+      wx.showToast({ title: '请先填写任务内容', icon: 'none' });
+      return;
+    }
+    this.setData({ suggesting: true, suggest: null });
+    try {
+      const result = await request({
+        url: API.AI_SUGGEST_PRICE,
+        method: 'POST',
+        data: {
+          title: f.title.trim() || undefined,
+          content: f.content.trim(),
+          orderType: this.data.orderTypeIndex,
+          urgencyLevel: this.data.urgencyLevel,
+        },
+      });
+      this.setData({ suggest: result });
+    } catch (e) {
+      // request.js 已 toast
+    } finally {
+      this.setData({ suggesting: false });
+    }
+  },
+
+  onApplySuggest() {
+    const s = this.data.suggest;
+    if (!s) return;
+    this.setData({
+      'form.price': String(s.suggestPrice),
+      'form.tip': String(s.suggestTip),
+    });
+    wx.showToast({ title: '已应用估价', icon: 'success' });
   },
 
   async onSubmit() {

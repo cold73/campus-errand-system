@@ -227,3 +227,93 @@
   font-weight: 900;
   letter-spacing: 2rpx;
 }
+
+/* -------- AI 估价 -------- */
+.field-lbl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.ai-btn {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+  color: #0A0A0A;
+  background: #D4FF3D;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+}
+
+.ai-btn-loading {
+  opacity: 0.6;
+}
+
+.ai-card {
+  background: #0A0A0A;
+  border-radius: 24rpx;
+  padding: 22rpx 24rpx 20rpx;
+  margin-top: 14rpx;
+  margin-bottom: 8rpx;
+}
+
+.ai-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.ai-card-title {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  color: #8A847B;
+}
+
+.ai-apply-btn {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 18rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+  color: #0A0A0A;
+  background: #D4FF3D;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+.ai-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8rpx 0;
+  border-bottom: 1rpx solid rgba(242, 237, 228, 0.08);
+}
+
+.ai-lbl {
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 20rpx;
+  color: #8A847B;
+  letter-spacing: 0.5rpx;
+}
+
+.ai-val {
+  font-family: 'Bodoni 72', 'Bodoni Moda', 'Didot', serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 36rpx;
+  color: #D4FF3D;
+}
+
+.ai-reason {
+  margin-top: 14rpx;
+  font-family: 'Courier New', 'Menlo', monospace;
+  font-size: 17rpx;
+  color: #555;
+  letter-spacing: 0.5rpx;
+  line-height: 1.6;
+  word-break: break-all;
+}

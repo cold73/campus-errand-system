@@ -23,6 +23,9 @@ const API = {
   // 跑腿员收益（虚拟结算）
   INCOME_SUMMARY: '/api/runner/income/summary', // GET 收益汇总 ?runnerId=
   INCOME_LIST: '/api/runner/income/list',        // GET 收益明细 ?runnerId=
+
+  // AI 能力
+  AI_SUGGEST_PRICE: '/api/ai/suggest-price',    // POST 智能定价建议
 };
 
 module.exports = {
